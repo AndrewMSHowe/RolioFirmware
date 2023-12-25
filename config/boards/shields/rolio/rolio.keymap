@@ -124,23 +124,23 @@
         };
 
         fkeys_nav_layer {
-            label = "F/Nav/Media";
+            label = "F/Nav";
             sensor-bindings =
                 <&inc_dec_kp C_VOL_UP C_VOL_DN>,
                 <&inc_dec_kp LC(MINUS) LC(FSLH)>;
 
             bindings = <
-&kp C_PREV  &kp F1  &kp F2  &kp F3  &kp F4  &kp F5                               &kp F6     &kp F7    &kp F8    &kp F9     &kp F10    &kp F11
-&kp C_PP    &trans  &trans  &trans  &trans  &trans                               &kp INS    &kp HOME  &kp UP    &kp END    &kp PG_UP  &kp F12
-&kp C_NEXT  &trans  &trans  &trans  &trans  &kp LG(DOT)  &kp C_MUTE  &kp LC(N0)  &kp PSCRN  &kp LEFT  &kp DOWN  &kp RIGHT  &kp PG_DN  &trans
-                    &trans  &trans  &trans  &trans       &trans      &trans      &trans     &trans    &trans    &trans
+&trans  &kp F1  &kp F2  &kp F3  &kp F4  &kp F5                               &kp F6     &kp F7    &kp F8    &kp F9     &kp F10    &kp F11
+&trans  &trans  &trans  &trans  &trans  &trans                               &kp INS    &kp HOME  &kp UP    &kp END    &kp PG_UP  &kp F12
+&trans  &trans  &trans  &trans  &trans  &kp LG(DOT)  &kp C_MUTE  &kp LC(N0)  &kp PSCRN  &kp LEFT  &kp DOWN  &kp RIGHT  &kp PG_DN  &trans
+                &trans  &trans  &trans  &trans       &trans      &trans      &mo 5      &trans    &trans    &trans
             >;
         };
 
         numbers_layer {
             label = "Numbers";
             sensor-bindings =
-                <&inc_dec_kp UP DOWN>,
+                <&inc_dec_kp PG_UP PG_DN>,
                 <&inc_dec_kp LC(RIGHT) LC(LEFT)>;
 
             bindings = <
@@ -175,6 +175,18 @@
 &trans  &trans        &bl BL_SET 10  &bl BL_DEC    &bl BL_TOG    &bl BL_INC    &trans  &bl BL_TOG  &bl BL_DEC  &bl BL_SET 10  &bl BL_INC  &trans  &trans  &trans
                       &trans         &trans        &trans        &tog 4        &trans  &trans      &trans      &trans         &trans      &trans
             >;
+        };
+
+        media_layer {
+            bindings = <
+&trans  &trans  &trans  &trans  &trans  &trans                      &trans  &trans      &trans    &trans      &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans                      &trans  &kp C_RW    &trans    &kp C_FF    &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans  &kp C_MUTE  &trans  &trans  &kp C_PREV  &kp C_PP  &kp C_NEXT  &trans  &trans
+                &trans  &trans  &trans  &trans  &trans      &trans  &trans  &trans      &trans    &trans
+            >;
+
+            label = "Media";
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
     };
 };
