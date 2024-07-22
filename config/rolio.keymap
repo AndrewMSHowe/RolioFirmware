@@ -44,7 +44,7 @@
             label = "TAP_DANCE_1";
             #binding-cells = <0>;
             tapping-term-ms = <300>;
-            bindings = <&mo 2>, <&tog 3>, <&tog 2>;
+            bindings = <&mo 2>, <&tog 3>, <&tog 2>, <&tog 4>;
         };
 
         // Toggle capsword left
