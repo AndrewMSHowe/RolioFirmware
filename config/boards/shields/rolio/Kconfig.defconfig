@@ -1,4 +1,4 @@
-if SHIELD_ROLIO_LEFT
+if SHIELD_ROLIO_RIGHT
 
 config ZMK_KEYBOARD_NAME
     default "Rolio"
