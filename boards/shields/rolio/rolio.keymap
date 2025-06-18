@@ -40,14 +40,15 @@
 
 /* Keymap layers */
 #define ALPHA     0
-#define GAME      1
-#define GAME_X    2
-#define FN_NAV    3
-#define SYMBOL    4
-#define NUMPAD    5
-#define MEDIA     6
-#define SUDOKU    7
-#define CONFIG    8
+#define ALPSYM    1
+#define GAME      2
+#define GAME_X    3
+#define FN_NAV    4
+#define SYMBOL    5
+#define NUMPAD    6
+#define MEDIA     7
+#define SUDOKU    8
+#define CONFIG    9
 
 /* default settings overrides */
 &lt {
@@ -130,6 +131,7 @@ ZMK_SENSOR_ROTATE(scroll_up_down, &msc SCRL_UP, &msc SCRL_DOWN, tap-ms = <20>;)
 ZMK_SENSOR_ROTATE(bt_adjust, &bt BT_NXT, &bt BT_PRV)
 
 /* Hold taps */
+// TODO maybe a bit overcomplicated
 
 #define TAP_OR_HOLD(NAME, DESC, TAP, HOLD, DURATION) ZMK_HOLD_TAP(NAME, \
     display-name = DESC; \
@@ -146,8 +148,13 @@ ZMK_SENSOR_ROTATE(bt_adjust, &bt BT_NXT, &bt BT_PRV)
 #define TAP_KP_OR_SHORT_HOLD(NAME, DESC, HOLD) TAP_OR_SHORT_HOLD(NAME, DESC, kp, HOLD)
 #define TAP_KP_OR_LONG_HOLD(NAME, DESC, HOLD) TAP_OR_LONG_HOLD(NAME, DESC, kp, HOLD)
 
+#define TAP_KP_OR_SHORT_HOLD_KP(NAME, DESC) TAP_KP_OR_SHORT_HOLD(NAME, DESC, kp)
+#define TAP_KP_OR_LONG_HOLD_KP(NAME, DESC) TAP_KP_OR_LONG_HOLD(NAME, DESC, kp)
+
 #define SHORT_HOLD(NAME, DESC, HOLD) TAP_OR_SHORT_HOLD(NAME, DESC, none, HOLD)
 #define LONG_HOLD(NAME, DESC, HOLD) TAP_OR_LONG_HOLD(NAME, DESC, none, HOLD)
+
+TAP_KP_OR_SHORT_HOLD_KP(mt_short, "Short mod tap")
 
 TAP_OR_SHORT_HOLD(bt_sel_disc, "Bluetooth Profile Tap: Select; Hold: Disconnect", m_btsel, m_btdis)
 
@@ -160,7 +167,7 @@ ZMK_HOLD_TAP(shift_capsword,
     bindings = <&kp>, <&caps_word>;
 )
 
-ZMK_HOLD_TAP(mt_slow,
+ZMK_HOLD_TAP(mt_medium,
     display-name = "Slow mod tap";
     flavor = "tap-preferred";
     quick-tap-ms = <175>;
@@ -202,7 +209,7 @@ ZMK_MACRO_ONE_PARAM(m_bootloader, display-name = "Bootloader"; bindings = <&boot
 
 #define ___ &trans
 
-#define MTS_LC(K) &mt_slow LC(K) K
+#define MTM_LC(K) &mt_medium LC(K) K
 #define RS_CAPSW &shift_capsword RSHIFT 0
 
 /* Base layer
@@ -218,13 +225,32 @@ ZMK_MACRO_ONE_PARAM(m_bootloader, display-name = "Bootloader"; bindings = <&boot
 LAYER(Alpha, "Alpha",
     &inc_dec_kp UP DOWN &inc_dec_kp LEFT RIGHT,
 // ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
-    &kp ESC         &Q_ro_abr       &W_ro_aci       &kp E           &R_ro_ici       &kp T                                           &kp Y           &kp U           &kp I           &kp O           &kp P           MTS_LC(BSPC)
+    &kp ESC         &Q_ro_abr       &W_ro_aci       &kp E           &R_ro_ici       &kp T                                           &kp Y           &kp U           &kp I           &kp O           &kp P           MTM_LC(BSPC)
     &kp TAB         &kp A           &kp S           &kp D           &F_ro_sco       &G_ro_tco    /*├───────────────┬───────────────┤*/&kp H         &kp J           &kp K           &kp L           &kp FI_O_UMLAUT &kp FI_A_UMLAUT
     &kp LSHIFT      &kp Z           &kp X           &kp C           &kp V           &kp B           &kp F13         &kp F14         &kp N           &kp M           &kp COMMA       &kp DOT         &kp FI_MINUS    RS_CAPSW
- /*╰───────────────┴───────────────┤*/&td_config    &kp LGUI        &kp LALT        &kp LCTRL       &lt FN_NAV RET  &lt NUMPAD SPC  &mo SYMBOL      &mt RCTRL K_APP &kp RALT        MTS_LC(DEL)  //├───────────────┴───────────────╯
+ /*╰───────────────┴───────────────┤*/&td_config    &kp LGUI        &kp LALT        &kp LCTRL       &lt FN_NAV RET  &lt NUMPAD SPC  &mo SYMBOL      &mt RCTRL K_APP &kp RALT        MTM_LC(DEL)  //├───────────────┴───────────────╯
 //                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
 )
 // Available RALT keys: C V B Y U H J
+
+/* Alpha Sym-Hold Layer
+    Experimental: Now I have a repeat key, how about a toggleable layer that puts symbol layer on hold, passing through to the alpha layer on tap?
+    Will lose BSPC word...
+    Hold-tap with tap trans didn't work, so this has to be kept updated with the Alpha layer...
+    But now maybe this is basically a default layer and I could bring in the &df stuff...
+*/
+
+#define SA &mt_short // SA because sym goes first
+
+LAYER(AlphaSymHold, "Alpha+Sym",
+    &inc_dec_kp UP DOWN &inc_dec_kp LEFT RIGHT,
+// ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
+    SA FI_SECTION ESC SA N1 Q       SA N2 W         SA N3 E         SA N4 R         SA N5 T                                         SA N6 Y         SA N7 U         SA N8 I         SA N9 O         SA N0 P         SA FI_PLUS BSPC
+    SA FI_LT TAB    SA EXCL A       SA AT S         SA HASH D       SA FI_CURREN F  SA PRCNT G   /*├───────────────┬───────────────┤*/SA FI_AMPS H  SA FI_SLASH J   SA FI_LPAR K    SA FI_RPAR L    SA FI_EQUAL FI_O_UMLAUT SA FI_SQT FI_A_UMLAUT
+    ___             SA FI_PIPE Z    SA FI_AT X      SA FI_GBP C     SA FI_DOLLAR V  SA FI_PERMILLE B ___            ___             SA FI_SL9QM N   SA FI_LBRC M    SA FI_LBKT COMMA SA FI_RBKT DOT SA FI_RBRC FI_MINUS ___
+/* ╰───────────────┴───────────────┤*/___           ___             ___             ___             ___             ___             ___             ___             ___             ___          //├───────────────┴───────────────╯
+//                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
+)
 
 /* Gaming layer
     Most used keys, left hand only
@@ -234,9 +260,9 @@ LAYER(Alpha, "Alpha",
 LAYER(Game, "Game",
     &scroll_up_down,
 // ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
-    ___             &kp N1          &kp N2          &kp N3          &kp N4          &kp N5                                          ___             ___             ___             ___             ___             ___   
-    ___             ___             &kp Q           &kp W           &kp E           &kp R        /*├───────────────┬───────────────┤*/___           ___             ___             ___             ___             ___   
-    ___             ___             &kp A           &kp S           &kp D           &kp F           ___             ___             ___             ___             ___             ___             ___             ___   
+    ___             &kp N1          &kp N2          &kp N3          &kp N4          &kp N5                                          ___             ___             ___             ___             ___             ___
+    ___             ___             &kp Q           &kp W           &kp E           &kp R        /*├───────────────┬───────────────┤*/___           ___             ___             ___             ___             ___
+    ___             ___             &kp A           &kp S           &kp D           &kp F           ___             ___             ___             ___             ___             ___             ___             ___
  /*╰───────────────┴───────────────┤*/___           &mo GAME_X      ___             ___             &kp SPACE       ___             ___             ___             ___             ___          //├───────────────┴───────────────╯
 //                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
 )
@@ -265,8 +291,8 @@ LAYER(Fn_Nav, "Fn Nav",
 // ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
     ___             &kp F1          &kp F2          &kp F3          &kp F4          &kp F5                                          &kp F6          &kp F7          &kp F8          &kp F9          &kp F10         &kp F11
     ___             &mkp MB4        &mkp LCLK       &mmv MOVE_UP    &mkp RCLK       &mkp MCLK    /*├───────────────┬───────────────┤*/&kp INSERT    &kp HOME        &kp UP          &kp END         &kp PAGE_UP     &kp F12
-    ___             &mkp MB5        &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_RIGHT &m_emoji        &reset_zoom     ___             &kp PRINTSCREEN &kp LEFT        &kp DOWN        &kp RIGHT       &kp PAGE_DOWN   ___   
- /*╰───────────────┴───────────────┤*/___           ___             ___             ___             ___             &key_repeat     &mo MEDIA       ___             ___             ___          //├───────────────┴───────────────╯ 
+    ___             &mkp MB5        &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_RIGHT &m_emoji        &reset_zoom     ___             &kp PRINTSCREEN &kp LEFT        &kp DOWN        &kp RIGHT       &kp PAGE_DOWN   ___
+ /*╰───────────────┴───────────────┤*/___           ___             ___             ___             ___             &key_repeat     &mo MEDIA       ___             ___             ___          //├───────────────┴───────────────╯
 //                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
 )
 
@@ -283,7 +309,7 @@ LAYER(Symbol, "Symbols",
 // ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
     &kp FI_SECTION  &kp N1          &kp N2          &kp N3          &kp N4          &kp N5                                          &kp N6          &kp N7          &kp N8          &kp N9          &kp N0          &kp FI_PLUS
     &kp FI_LT       &kp EXCL        &kp AT          &kp HASH        &kp FI_CURREN   &kp PRCNT    /*├───────────────┬───────────────┤*/&kp FI_AMPS   &kp FI_SLASH    &kp FI_LPAR     &kp FI_RPAR     &kp FI_EQUAL    &kp FI_SQT
-    ___             &kp FI_PIPE     &kp FI_AT       &kp FI_GBP      &kp FI_DOLLAR   &kp FI_PERMILLE ___             ___             &kp FI_SL9QM    &kp FI_LBRC     &kp FI_LBKT     &kp FI_RBKT     &kp FI_RBRC     ___   
+    ___             &kp FI_PIPE     &kp FI_AT       &kp FI_GBP      &kp FI_DOLLAR   &kp FI_PERMILLE ___             ___             &kp FI_SL9QM    &kp FI_LBRC     &kp FI_LBKT     &kp FI_RBKT     &kp FI_RBRC     ___
 /* ╰───────────────┴───────────────┤*/___           ___             ___             ___             ___             ___             ___             ___             ___             ___          //├───────────────┴───────────────╯
 //                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
 )
@@ -314,9 +340,9 @@ LAYER(Numpad, "Num Pad",
 LAYER(Media, "Media",
     &inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp LG(FI_PLUS) LG(FI_MINUS),
 // ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
-    ___             ___             ___             ___             ___             ___                                             ___             ___             ___             ___             ___             ___   
-    ___             ___             ___             ___             ___             ___          /*├───────────────┬───────────────┤*/___           &kp C_RW        ___             &kp C_FF        ___             ___   
-    ___             ___             ___             &kp C_VOL_DN    &kp C_MUTE      &kp C_VOL_UP    &kp C_MUTE      &kp LG(ESC)     ___             &kp C_PREV      &kp C_PP        &kp C_NEXT      ___             ___   
+    ___             ___             ___             ___             ___             ___                                             ___             ___             ___             ___             ___             ___
+    ___             ___             ___             ___             ___             ___          /*├───────────────┬───────────────┤*/___           &kp C_RW        ___             &kp C_FF        ___             ___
+    ___             ___             ___             &kp C_VOL_DN    &kp C_MUTE      &kp C_VOL_UP    &kp C_MUTE      &kp LG(ESC)     ___             &kp C_PREV      &kp C_PP        &kp C_NEXT      ___             ___
 /* ╰───────────────┴───────────────┤*/___           ___             ___             ___             ___             ___             ___             ___             ___             ___          //├───────────────┴───────────────╯
 //                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
 )
@@ -329,9 +355,9 @@ LAYER(Media, "Media",
 LAYER(Sudoku, "Sudoku",
     &inc_dec_kp UP DOWN &inc_dec_kp LEFT RIGHT,
 // ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
-    ___             ___             ___             ___             ___             ___                                             &kp LC(Y)       &kp N1          &kp N2          &kp N3          ___             ___   
-    ___             &kp LC(A)       &kp Z           &kp UP          &kp C           &kp V        /*├───────────────┬───────────────┤*/&kp LC(I)     &kp N4          &kp N5          &kp N6          ___             ___   
-    ___             &kp LC(Z)       &kp LEFT        &kp DOWN        &kp RIGHT       &kp B           ___             ___             ___             &kp N7          &kp N8          &kp N9          ___             ___   
+    ___             ___             ___             ___             ___             ___                                             &kp LC(Y)       &kp N1          &kp N2          &kp N3          ___             ___
+    ___             &kp LC(A)       &kp Z           &kp UP          &kp C           &kp V        /*├───────────────┬───────────────┤*/&kp LC(I)     &kp N4          &kp N5          &kp N6          ___             ___
+    ___             &kp LC(Z)       &kp LEFT        &kp DOWN        &kp RIGHT       &kp B           ___             ___             ___             &kp N7          &kp N8          &kp N9          ___             ___
 /* ╰───────────────┴───────────────┤*/___           &kp X           ___             ___             ___             ___             ___             &kp N0          &kp KP_DIVIDE   ___          //├───────────────┴───────────────╯
 //                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
 )
@@ -354,7 +380,7 @@ LAYER(Config, "Config",
 // ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
     &out OUT_TOG    BTSD(0)         BTSD(1)         BTSD(2)         BTSD(3)         BTSD(4)                                         BTSD(5)         BTSD(6)         BTSD(7)         BTSD(8)         BTSD(9)         &kp FI_ACUTE
     ___             ___             &tog SUDOKU     ___             ___             &tog GAME    /*├───────────────┬───────────────┤*/___           ___             &kp PAUSE_BREAK &kp SCROLLLOCK  &kp FI_A_RING   &kp FI_UMLAUT
-    ___             &bl BL_SET 10   BTCLR           &bl BL_DEC      &bl BL_TOG      &bl BL_INC      ___             &bl BL_TOG      ___             ___             ___             ___             ___             ___   
+    ___             &bl BL_SET 10   BTCLR           &bl BL_DEC      &bl BL_TOG      &bl BL_INC      ___             &bl BL_TOG      &tog ALPSYM     ___             ___             ___             ___             ___
 /* ╰───────────────┴───────────────┤*/___           &leader         ___             ___             &tog FN_NAV     &tog NUMPAD     &tog SYMBOL     ___             ___             &leader      //├───────────────┴───────────────╯
 //                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
 )
@@ -362,9 +388,9 @@ LAYER(Config, "Config",
 /* Empty layer for copy & paste */
 //      &inc_dec_kp UP DOWN &inc_dec_kp LEFT RIGHT,
 //  // ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
-//      ___             ___             ___             ___             ___             ___                                             ___             ___             ___             ___             ___             ___   
-//      ___             ___             ___             ___             ___             ___          /*├───────────────┬───────────────┤*/___           ___             ___             ___             ___             ___   
-//      ___             ___             ___             ___             ___             ___             ___             ___             ___             ___             ___             ___             ___             ___   
+//      ___             ___             ___             ___             ___             ___                                             ___             ___             ___             ___             ___             ___
+//      ___             ___             ___             ___             ___             ___          /*├───────────────┬───────────────┤*/___           ___             ___             ___             ___             ___
+//      ___             ___             ___             ___             ___             ___             ___             ___             ___             ___             ___             ___             ___             ___
 //  /* ╰───────────────┴───────────────┤*/___           ___             ___             ___             ___             ___             ___             ___             ___             ___          //├───────────────┴───────────────╯
 //  //                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
 
@@ -401,25 +427,25 @@ LAYER(Config, "Config",
 // TODO: if mouse press / release are possible, maybe swipe gestures for mobile? Maybe &mkp would work with macro_press?
 
 // Mouse move/click
-ZMK_COMBO(mup,      &mmv MOVE_UP,       LM2 LB2,    ALPHA        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
-ZMK_COMBO(mdown,    &mmv MOVE_DOWN,     LB2 LH3,    ALPHA        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
-ZMK_COMBO(mleft,    &mmv MOVE_LEFT,     LB2 LB3,    ALPHA        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
-ZMK_COMBO(mright,   &mmv MOVE_RIGHT,    LB1 LB2,    ALPHA        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
-ZMK_COMBO(mb1,      &mkp LCLK,          LM2 LM3,    ALPHA        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
-ZMK_COMBO(mb2,      &mkp RCLK,          LM1 LM2,    ALPHA        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
-ZMK_COMBO(mb3,      &mkp MCLK,          LT2 LM2,    ALPHA        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
-ZMK_COMBO(mb4,      &mkp MB4,           LM3 LM4,    ALPHA        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
-ZMK_COMBO(mb5,      &mkp MB5,           LM0 LM1,    ALPHA        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(mup,      &mmv MOVE_UP,       LM2 LB2,    ALPHA  ALPSYM       SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(mdown,    &mmv MOVE_DOWN,     LB2 LH3,    ALPHA  ALPSYM       SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(mleft,    &mmv MOVE_LEFT,     LB2 LB3,    ALPHA  ALPSYM       SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(mright,   &mmv MOVE_RIGHT,    LB1 LB2,    ALPHA  ALPSYM       SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(mb1,      &mkp LCLK,          LM2 LM3,    ALPHA  ALPSYM       SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(mb2,      &mkp RCLK,          LM1 LM2,    ALPHA  ALPSYM       SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(mb3,      &mkp MCLK,          LT2 LM2,    ALPHA  ALPSYM       SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(mb4,      &mkp MB4,           LM3 LM4,    ALPHA  ALPSYM       SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(mb5,      &mkp MB5,           LM0 LM1,    ALPHA  ALPSYM       SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
 
 // Navigation
-ZMK_COMBO(up,       &kp UP,             RM2 RB2,    ALPHA        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
-ZMK_COMBO(down,     &kp DOWN,           RB2 RH3,    ALPHA        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
-ZMK_COMBO(left,     &kp LEFT,           RB1 RB2,    ALPHA        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
-ZMK_COMBO(right,    &kp RIGHT,          RB2 RB3,    ALPHA        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
-ZMK_COMBO(home,     &kp HOME,           RM1 RM2,    ALPHA        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
-ZMK_COMBO(end,      &kp END,            RM2 RM3,    ALPHA        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
-ZMK_COMBO(pgup,     &kp PG_UP,          RM3 RB3,    ALPHA        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
-ZMK_COMBO(pgdn,     &kp PG_DN,          RB3 RH4,    ALPHA        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(up,       &kp UP,             RM2 RB2,    ALPHA  ALPSYM       SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(down,     &kp DOWN,           RB2 RH3,    ALPHA  ALPSYM       SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(left,     &kp LEFT,           RB1 RB2,    ALPHA  ALPSYM       SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(right,    &kp RIGHT,          RB2 RB3,    ALPHA  ALPSYM       SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(home,     &kp HOME,           RM1 RM2,    ALPHA  ALPSYM       SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(end,      &kp END,            RM2 RM3,    ALPHA  ALPSYM       SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(pgup,     &kp PG_UP,          RM3 RB3,    ALPHA  ALPSYM       SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(pgdn,     &kp PG_DN,          RB3 RH4,    ALPHA  ALPSYM       SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
 
 #undef ZMK_LEADER_SEQUENCE
 #define ZMK_LEADER_SEQUENCE(NAME, BINDINGS, SEQUENCE) \
@@ -462,3 +488,13 @@ west build -d build/left
 west build -p -d build/right -b nice_nano_v2 -S studio-rpc-usb-uart -- -DSHIELD="rolio_right nice_view" -DZMK_CONFIG="/workspaces/zmk-config/config" -DEXTRA_CONF_FILE=/workspaces/zmk-config/config/rolio-nice_view.conf -DZMK_EXTRA_MODULES="/workspaces/zmk-config/;/workspaces/zmk-modules/zmk-helpers/;/workspaces/zmk-modules/zmk-leader-key/;/workspaces/zmk-modules/zmk-locales/"
 west build -d build/right
 */
+
+// AAAARGH tried to do this with hold tap + trans, it doesn't work, it doesn't continue through the layers. ZMK has patches but not merged yet.
+//TAP_OR_SHORT_HOLD(alpha_sym_hold, "Tap Alpha; Hold Symbol", trans, kp)
+//#define AS(SYM) &alpha_sym_hold SYM SYM
+// ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
+//    AS(FI_SECTION)  AS(N1)          AS(N2)          AS(N3)          AS(N4)          AS(N5)                                          AS(N6)          AS(N7)          AS(N8)          AS(N9)          AS(N0)          AS(FI_PLUS)
+//    AS(FI_LT)       AS(EXCL)        AS(AT)          AS(HASH)        AS(FI_CURREN)   AS(PRCNT)    /*├───────────────┬───────────────┤*/AS(FI_AMPS)   AS(FI_SLASH)    AS(FI_LPAR)     AS(FI_RPAR)     AS(FI_EQUAL)    AS(FI_SQT)
+//    ___             AS(FI_PIPE)     AS(FI_AT)       AS(FI_GBP)      AS(FI_DOLLAR)   AS(FI_PERMILLE) ___             ___             AS(FI_SL9QM)    AS(FI_LBRC)     AS(FI_LBKT)     AS(FI_RBKT)     AS(FI_RBRC)     ___
+///* ╰───────────────┴───────────────┤*/___           ___             ___             ___             ___             ___             ___             ___             ___             ___          //├───────────────┴───────────────╯
+//                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
