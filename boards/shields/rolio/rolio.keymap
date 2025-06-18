@@ -27,16 +27,16 @@
 #define ZMK_BEHAVIOR_CORE_sensor_rotate compatible = "zmk,behavior-sensor-rotate";       #binding-cells = <0>; #sensor-binding-cells = <0>
 #define ZMK_SENSOR_ROTATE(NAME, UP, DOWN, ...) ZMK_BEHAVIOR(NAME, sensor_rotate, bindings = <UP>, <DOWN>; __VA_ARGS__)
 
+/* Key labels */
+#include "zmk-helpers/key-labels/rolio46.h"
+
 /* Finnish key definitions and my additions */
-#include "keys_fi.h"
+#include "locale/keys_fi.h"
 #define FI_PERMILLE (RA(ZMK_HID_USAGE(HID_USAGE_KEY, HID_USAGE_KEY_KEYBOARD_5_AND_PERCENT)))
 #define FI_SL9QM (RA(ZMK_HID_USAGE(HID_USAGE_KEY, HID_USAGE_KEY_KEYBOARD_6_AND_CARET)))
 #undef FI_EURO
 #define FI_EURO (RA(ZMK_HID_USAGE(HID_USAGE_KEY, HID_USAGE_KEY_KEYBOARD_E)))
 #define FI_GBP FI_POUND_SIGN
-
-/* Key labels */
-#include "zmk-helpers/key-labels/rolio46.h"
 
 /* Keymap layers */
 #define ALPHA     0
@@ -360,7 +360,7 @@ LAYER(Config, "Config",
 )
 
 /* Empty layer for copy & paste */
-//      &inc_dec_kp UP DOWN &inc_dec_kp LEFT RIGHT
+//      &inc_dec_kp UP DOWN &inc_dec_kp LEFT RIGHT,
 //  // ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
 //      ___             ___             ___             ___             ___             ___                                             ___             ___             ___             ___             ___             ___   
 //      ___             ___             ___             ___             ___             ___          /*├───────────────┬───────────────┤*/___           ___             ___             ___             ___             ___   
@@ -457,8 +457,8 @@ ZMK_LEADER_SEQUENCE(boot,       &bootloader,    B O O T)
 
 /* Temp just splatting this stuff here; there was a reset one too but I can't remember the line for that right now
 cd app
-west build -p -d build/left -b nice_nano_v2 -S studio-rpc-usb-uart -- -DSHIELD="rolio_left nice_view" -DZMK_CONFIG="/workspaces/zmk-config/config" -DEXTRA_CONF_FILE=/workspaces/zmk-config/config/rolio-nice_view.conf -DZMK_EXTRA_MODULES="/workspaces/zmk-config/;/workspaces/zmk-modules/zmk-helpers/;/workspaces/zmk-modules/zmk-leader-key/"
+west build -p -d build/left -b nice_nano_v2 -S studio-rpc-usb-uart -- -DSHIELD="rolio_left nice_view" -DZMK_CONFIG="/workspaces/zmk-config/config" -DEXTRA_CONF_FILE=/workspaces/zmk-config/config/rolio-nice_view.conf -DZMK_EXTRA_MODULES="/workspaces/zmk-config/;/workspaces/zmk-modules/zmk-helpers/;/workspaces/zmk-modules/zmk-leader-key/;/workspaces/zmk-modules/zmk-locales/"
 west build -d build/left
-west build -p -d build/right -b nice_nano_v2 -S studio-rpc-usb-uart -- -DSHIELD="rolio_right nice_view" -DZMK_CONFIG="/workspaces/zmk-config/config" -DEXTRA_CONF_FILE=/workspaces/zmk-config/config/rolio-nice_view.conf -DZMK_EXTRA_MODULES="/workspaces/zmk-config/;/workspaces/zmk-modules/zmk-helpers/;/workspaces/zmk-modules/zmk-leader-key/"
+west build -p -d build/right -b nice_nano_v2 -S studio-rpc-usb-uart -- -DSHIELD="rolio_right nice_view" -DZMK_CONFIG="/workspaces/zmk-config/config" -DEXTRA_CONF_FILE=/workspaces/zmk-config/config/rolio-nice_view.conf -DZMK_EXTRA_MODULES="/workspaces/zmk-config/;/workspaces/zmk-modules/zmk-helpers/;/workspaces/zmk-modules/zmk-leader-key/;/workspaces/zmk-modules/zmk-locales/"
 west build -d build/right
 */

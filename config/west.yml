@@ -8,6 +8,8 @@ manifest:
       url-base: https://github.com/urob
     - name: AndrewMSHowe
       url-base: https://github.com/AndrewMSHowe
+    - name: joelspadin
+      url-base: https://github.com/joelspadin
   projects:
     - name: zmk
       import: app/west.yml
@@ -22,5 +24,8 @@ manifest:
     - name: zmk-leader-key
       remote: urob
       revision: v0.2.1
+    - name: zmk-locales
+      remote: joelspadin
+      revision: main
   self:
     path: config
