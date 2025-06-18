@@ -6,6 +6,11 @@ config ZMK_KEYBOARD_NAME
 config ZMK_SPLIT_ROLE_CENTRAL
     default y
 
+config BT_MAX_CONN
+    default 11
+config BT_MAX_PAIRED
+    default 11
+
 endif
 
 if SHIELD_ROLIO_LEFT || SHIELD_ROLIO_RIGHT

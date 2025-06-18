@@ -4,190 +4,460 @@
  * SPDX-License-Identifier: MIT
  */
 
+/* Upgrayeddedd's Rolio46 keymap
+ * Based on MickiusMousius's original keymap
+ * Added urob's helpers etc
+ * Many changes because I use a Finnish layout
+ * Just a work in progress of many ideas, but quite well sorted for now
+ */
+
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/backlight.h>
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/outputs.h>
-#include <dt-bindings/zmk/pointing.h>
 
+#define ZMK_POINTING_DEFAULT_MOVE_VAL 1500
 #define ZMK_POINTING_DEFAULT_SCRL_VAL 100
+#include <dt-bindings/zmk/mouse.h>
 
+/* urob's helpers plus my additions */
+#include "../../../config/helper.h"
+#define ZMK_BEHAVIOR_CORE_sensor_rotate compatible = "zmk,behavior-sensor-rotate";       #binding-cells = <0>; #sensor-binding-cells = <0>
+#define ZMK_SENSOR_ROTATE(NAME, UP, DOWN, ...) ZMK_BEHAVIOR(NAME, sensor_rotate, bindings = <UP>, <DOWN>; __VA_ARGS__)
+
+/* Finnish key definitions and my additions */
+#include "keys_fi.h"
+#define FI_PERMILLE (RA(ZMK_HID_USAGE(HID_USAGE_KEY, HID_USAGE_KEY_KEYBOARD_5_AND_PERCENT)))
+#define FI_SL9QM (RA(ZMK_HID_USAGE(HID_USAGE_KEY, HID_USAGE_KEY_KEYBOARD_6_AND_CARET)))
+#undef FI_EURO
+#define FI_EURO (RA(ZMK_HID_USAGE(HID_USAGE_KEY, HID_USAGE_KEY_KEYBOARD_E)))
+#define FI_GBP FI_POUND_SIGN
+
+/* Key labels */
+#include "../../../config/rolio_key_labels.h"
+
+/* Keymap layers */
 #define ALPHA     0
-#define FKEYS     1
-#define NUMBERS   2
-#define NUMPAD    3
-#define SETTINGS  4
-#define MEDIA     5
+#define GAME      1
+#define GAME_X    2
+#define FN_NAV    3
+#define SYMBOL    4
+#define NUMPAD    5
+#define MEDIA     6
+#define SUDOKU    7
+#define CONFIG    8
 
-/ {
-    conditional_layers {
-        compatible = "zmk,conditional-layers";
-    };
-
-    behaviors {
-        // Toggle F-Keys Layer
-        td0: Left_Layer_Tapdance {
-            display-name = "Left Layer Tapdance";
-            compatible = "zmk,behavior-tap-dance";
-            label = "TAP_DANCE_0";
-            #binding-cells = <0>;
-            tapping-term-ms = <300>;
-            bindings = <&mo FKEYS>, <&tog FKEYS>, <&tog SETTINGS>;
-        };
-
-        // Toggle Numbers layer
-        td1: Right_Layer_Tapdance {
-            display-name = "Right Layer Tapdance";
-            compatible = "zmk,behavior-tap-dance";
-            label = "TAP_DANCE_1";
-            #binding-cells = <0>;
-            tapping-term-ms = <300>;
-            bindings = <&mo NUMBERS>, <&tog NUMPAD>, <&tog NUMBERS>, <&tog SETTINGS>;
-        };
-
-        // Toggle capsword left
-        td2: tap_dance_2 {
-            compatible = "zmk,behavior-tap-dance";
-            label = "TAP_DANCE_2";
-            #binding-cells = <0>;
-            tapping-term-ms = <200>;
-            bindings = <&kp LSHFT>, <&caps_word>;
-        };
-
-        // Toggle capsword right
-        td3: tap_dance_3 {
-            compatible = "zmk,behavior-tap-dance";
-            label = "TAP_DANCE_3";
-            #binding-cells = <0>;
-            tapping-term-ms = <200>;
-            bindings = <&kp RSHFT>, <&caps_word>;
-        };
-
-        // Backlight Brightness
-        bri_adjust: Brightness_Scroller {
-            label = "Scroller Brightness Adjust";
-            compatible = "zmk,behavior-sensor-rotate";
-            #sensor-binding-cells = <0>;
-            bindings = <&bl BL_INC>, <&bl BL_DEC>;
-        };
-
-        // Encoder to Mouse Scroll
-        scroll_up_down: Mouse_Scroller {
-            label = "Scroller As Mouse Wheel";
-            compatible = "zmk,behavior-sensor-rotate";
-            #sensor-binding-cells = <0>;
-            bindings = <&msc SCRL_UP>, <&msc SCRL_DOWN>;
-            tap-ms = <20>;
-        };
-
-        bt_adjust: bt_adjust {
-            compatible = "zmk,behavior-sensor-rotate";
-            label = "BT_ADJUST";
-            #sensor-binding-cells = <0>;
-            bindings = <&bt BT_NXT>, <&bt BT_PRV>;
-        };
-
-        td_bt: td_bt {
-            compatible = "zmk,behavior-tap-dance";
-            label = "TD_BT";
-            #binding-cells = <0>;
-            bindings = <&none>, <&out OUT_TOG>, <&bt BT_CLR>;
-        };
-    };
-
-    macros {
-        // Word backspace macros
-
-        m_caret: m_caret {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp LS(RBKT) &kp SPACE>;
-            label = "M_CARET";
-        };
-
-        // Word seek macros
-        // Zoom macros
-    };
-
-    keymap {
-        compatible = "zmk,keymap";
-
-        default_layer {
-            label = "Alpha";
-            sensor-bindings = <&inc_dec_kp UP DOWN &inc_dec_kp LEFT RIGHT>;
-            bindings = <
-&kp ESC     &kp Q  &kp W     &kp E     &kp R      &kp T                        &kp Y  &kp U      &kp I      &kp O    &kp P     &kp BSPC
-&kp TAB     &kp A  &kp S     &kp D     &kp F      &kp G                        &kp H  &kp J      &kp K      &kp L    &kp SEMI  &kp SQT
-&kp LSHIFT  &kp Z  &kp X     &kp C     &kp V      &kp B  &kp F13    &kp F14    &kp N  &kp M      &kp COMMA  &kp DOT  &kp FSLH  &kp RSHIFT
-                   &kp LGUI  &kp LALT  &kp LCTRL  &td0   &kp ENTER  &kp SPACE  &td1   &kp RCTRL  &kp RALT   &kp DEL
-            >;
-        };
-
-        fkeys_nav_layer {
-            label = "F/Nav";
-            sensor-bindings =
-                <&inc_dec_kp LC(MINUS) LC(FSLH)>,
-                <&scroll_up_down>;
-
-            bindings = <
-&trans  &kp F1  &kp F2  &kp F3  &kp F4  &kp F5                               &kp F6     &kp F7    &kp F8    &kp F9     &kp F10    &kp F11
-&trans  &trans  &trans  &trans  &trans  &trans                               &kp INS    &kp HOME  &kp UP    &kp END    &kp PG_UP  &kp F12
-&trans  &trans  &trans  &trans  &trans  &kp LG(DOT)  &kp LC(N0)  &mkp LCLK   &kp PSCRN  &kp LEFT  &kp DOWN  &kp RIGHT  &kp PG_DN  &trans
-                &trans  &trans  &trans  &trans       &trans      &trans      &mo MEDIA  &trans    &trans    &trans
-            >;
-        };
-
-        numbers_layer {
-            label = "Numbers";
-            sensor-bindings =
-                <&inc_dec_kp PG_UP PG_DN>,
-                <&inc_dec_kp LC(RIGHT) LC(LEFT)>;
-
-            bindings = <
-&kp GRAVE        &kp N1               &kp N2            &kp N3      &kp N4      &kp N5                          &kp N6     &kp N7            &kp N8      &kp N9      &kp N0      &trans
-&kp NON_US_BSLH  &kp EXCL             &kp AT            &kp HASH    &kp DLLR    &kp PRCNT                       &kp CARET  &kp AMPERSAND     &kp STAR    &kp LPAR    &kp RPAR    &kp BSLH
-&trans           &kp RA(NON_US_BSLH)  &kp RA(NUMBER_2)  &kp RA(N3)  &kp RA(N4)  &kp RBKT   &kp EQUAL  &kp LBKT  &kp MINUS  &kp RA(NUMBER_7)  &kp RA(N8)  &kp RA(N9)  &kp RA(N0)  &trans
-                                      &trans            &trans      &trans      &trans     &trans     &trans    &trans     &trans            &trans      &trans
-            >;
-        };
-
-        numpad_layer {
-            bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans                  &kp LS(N0)  &kp N7  &kp N8     &kp N9   &kp FSLH   &trans
-&trans  &trans  &trans  &trans  &trans  &trans                  &m_caret    &kp N4  &kp N5     &kp N6   &kp MINUS  &kp LS(N7)
-&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &kp PRCNT   &kp N1  &kp N2     &kp N3   &kp RET    &kp LS(BACKSLASH)
-                &trans  &trans  &trans  &trans  &trans  &trans  &tog NUMPAD &kp N0  &kp COMMA  &kp DOT
-            >;
-
-            label = "Num Pad";
-            sensor-bindings =
-                <&inc_dec_kp UP_ARROW DOWN>,
-                <&inc_dec_kp LEFT RIGHT>;
-        };
-
-        settings_layer {
-            label = "Settings";
-            sensor-bindings = <&bt_adjust>, <&bri_adjust>;
-
-            bindings = <
-&td_bt  &bt BT_SEL 0  &bt BT_SEL 1   &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4                      &trans      &trans         &trans      &trans  &trans  &trans
-&trans  &trans        &trans         &trans        &trans        &trans                            &trans      &trans         &trans      &trans  &trans  &trans
-&trans  &trans        &bl BL_SET 10  &bl BL_DEC    &bl BL_TOG    &bl BL_INC    &trans  &bl BL_TOG  &bl BL_DEC  &bl BL_SET 10  &bl BL_INC  &trans  &trans  &trans
-                      &trans         &trans        &trans        &tog SETTINGS &trans  &trans      &trans      &trans         &trans      &trans
-            >;
-        };
-
-        media_layer {
-            bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans                      &trans  &trans      &trans    &trans      &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans                      &trans  &kp C_RW    &trans    &kp C_FF    &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &kp C_MUTE  &trans  &trans  &kp C_PREV  &kp C_PP  &kp C_NEXT  &trans  &trans
-                &trans  &trans  &trans  &trans  &trans      &trans  &trans  &trans      &trans    &trans
-            >;
-
-            label = "Media";
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
-        };
-    };
+/* default settings overrides */
+&lt {
+    quick-tap-ms = <175>;
 };
+
+&mt {
+    quick-tap-ms = <220>;
+};
+
+&mmv {
+    time-to-max-speed-ms = <1000>;
+    acceleration-exponent = <1>;
+};
+
+/* Dead key macros
+ * These create mod morphs that switch on the left or right shift keys to obtain the upper case letter; both send the same dead key first.
+ * It's a bit of a hack because these are designed to be used within other mod morphs with AltGr (Right Alt) as the modifier.
+ * The hack is to unpress RALT before sending the dead key and next key, then press it again.
+ */
+#define DEADKEY_MACRO(NAME, DEADKEY, NEXTKEY) ZMK_MACRO(NAME, \
+    bindings = <&macro_release &kp RALT>, <&macro_tap &kp DEADKEY &kp NEXTKEY>, <&macro_press &kp RALT>; \
+)
+
+#define DEADKEY_MODMORPH(NAME, LOWER, UPPER) ZMK_MOD_MORPH(NAME, \
+    bindings = <LOWER>, <UPPER>; \
+    mods = <(MOD_LSFT | MOD_RSFT)>; \
+)
+
+#define DEADKEY(NAME, DEADKEY, LETTER) \
+    DEADKEY_MACRO(NAME ## _lower, DEADKEY, LETTER) \
+    DEADKEY_MACRO(NAME ## _upper, DEADKEY, LS(LETTER)) \
+    DEADKEY_MODMORPH(NAME, &NAME ## _lower, &NAME ## _upper)
+
+/* Instantiate dead key sequences for Romanian letters. These only work with SFS 5966, with the latest extension for "comma below" */
+// There are ways to enter letters with unicode sequences, but it needs registry tweaks in Windows to get hex unicode input, and alt-decimal keypad input doesn't work everywhere.
+DEADKEY(ro_abr, RA(FI_STAR), A)
+DEADKEY(ro_aci, FI_CARET, A)
+DEADKEY(ro_ici, FI_CARET, I)
+DEADKEY(ro_sco, RA(FI_UNDERSCORE), S)
+DEADKEY(ro_tco, RA(FI_UNDERSCORE), T)
+
+/* Macro for keys with Right Alt modifier
+ * This creates a mod morph that gives the given key normally, but switches to somee other behaviour when AltGr is pressed.
+ */
+#define KP_OR_OTHER_WITH_RA(KEY, OTHER, DESC) ZMK_MOD_MORPH(KEY ## _ ## OTHER, \
+    display-name = DESC; \
+    bindings = <&kp KEY>, <&OTHER>; \
+    mods = <(MOD_RALT)>; \
+)
+
+// Some Romanian letters with AltGr modifier, on keys that don't have a standard AltGr variant
+KP_OR_OTHER_WITH_RA(Q, ro_abr, "Q/ă")
+KP_OR_OTHER_WITH_RA(W, ro_aci, "W/â")
+KP_OR_OTHER_WITH_RA(R, ro_ici, "R/î")
+KP_OR_OTHER_WITH_RA(F, ro_sco, "F/ș")
+KP_OR_OTHER_WITH_RA(G, ro_tco, "G/ț")
+
+/*
+ * Config key turns on Config layer.
+ * Config layer has toggles for other layers in the same place as the momentary keys for those layers.
+ * Config layer lock itself is double-tap of the config key.
+ */
+
+ZMK_TAP_DANCE(td_config,
+    display-name = "Config Hold/Lock";
+    tapping-term-ms = <300>;
+    bindings = <&mo CONFIG>, <&tog CONFIG>;
+)
+
+/* Sensor rotates */
+
+// Backlight Brightness
+ZMK_SENSOR_ROTATE(bri_adjust, &bl BL_INC, &bl BL_DEC)
+
+// Encoder to Mouse Scroll
+ZMK_SENSOR_ROTATE(scroll_up_down, &msc SCRL_UP, &msc SCRL_DOWN, tap-ms = <20>;)
+
+// Bluetooth profile selection
+ZMK_SENSOR_ROTATE(bt_adjust, &bt BT_NXT, &bt BT_PRV)
+
+/* Hold taps */
+
+#define TAP_OR_HOLD(NAME, DESC, TAP, HOLD, DURATION) ZMK_HOLD_TAP(NAME, \
+    display-name = DESC; \
+    flavor = "tap-preferred"; \
+    tapping-term-ms = <DURATION>; \
+    quick-tap-ms = <175>; \
+    require-prior-idle-ms = <125>; \
+    bindings = <&HOLD>, <&TAP>; \
+)
+
+#define TAP_OR_SHORT_HOLD(NAME, DESC, TAP, HOLD) TAP_OR_HOLD(NAME, DESC, TAP, HOLD, 200)
+#define TAP_OR_LONG_HOLD(NAME, DESC, TAP, HOLD) TAP_OR_HOLD(NAME, DESC, TAP, HOLD, 2000)
+
+#define TAP_KP_OR_SHORT_HOLD(NAME, DESC, HOLD) TAP_OR_SHORT_HOLD(NAME, DESC, kp, HOLD)
+#define TAP_KP_OR_LONG_HOLD(NAME, DESC, HOLD) TAP_OR_LONG_HOLD(NAME, DESC, kp, HOLD)
+
+#define SHORT_HOLD(NAME, DESC, HOLD) TAP_OR_SHORT_HOLD(NAME, DESC, none, HOLD)
+#define LONG_HOLD(NAME, DESC, HOLD) TAP_OR_LONG_HOLD(NAME, DESC, none, HOLD)
+
+TAP_OR_SHORT_HOLD(bt_sel_disc, "Bluetooth Profile Tap: Select; Hold: Disconnect", m_btsel, m_btdis)
+
+LONG_HOLD(h_btclr, "Bluetooth profile Hold: Clear", m_btclr)
+
+ZMK_HOLD_TAP(shift_capsword,
+    display-name = "Hold Shift / Tap Capsword";
+    flavor = "hold-preferred";
+    tapping-term-ms = <200>;
+    bindings = <&kp>, <&caps_word>;
+)
+
+ZMK_HOLD_TAP(mt_slow,
+    display-name = "Slow mod tap";
+    flavor = "tap-preferred";
+    quick-tap-ms = <175>;
+    tapping-term-ms = <500>;
+    bindings = <&kp>, <&kp>;
+)
+
+/* Macros */
+
+// Press dead key ^ and space to get caret
+ZMK_MACRO(m_caret, display-name = "Caret"; bindings = <&kp FI_CARET &kp SPACE>;)
+
+// Windows Emoji shortcut
+ZMK_MACRO(m_emoji, display-name = "Windows Emoji"; bindings = <&kp LG(DOT)>;)
+
+// Reset zoom
+ZMK_MACRO(reset_zoom, display-name = "Reset Zoom"; bindings = <&kp LC(KP_N0)>;)
+
+// Helpers for behaviors above
+ZMK_MACRO_ONE_PARAM(m_btsel, display-name = "Bluetooth Profile Select"; bindings = <&macro_param_1to2>, <&bt BT_SEL MACRO_PLACEHOLDER>;)
+ZMK_MACRO_ONE_PARAM(m_btdis, display-name = "Bluetooth Profile Disconnect"; bindings = <&macro_param_1to2>, <&bt BT_DISC MACRO_PLACEHOLDER>;)
+ZMK_MACRO_ONE_PARAM(m_btclr, display-name = "Bluetooth Profile Clear"; bindings = <&bt BT_CLR>;)
+ZMK_MACRO_ONE_PARAM(m_reset, display-name = "Reset"; bindings = <&sys_reset>;)
+ZMK_MACRO_ONE_PARAM(m_bootloader, display-name = "Bootloader"; bindings = <&bootloader>;)
+
+/* Layers */
+
+#define LAYER(NAME, DESC, SENSORS, LAYOUT) \
+    / { \
+        keymap { \
+            compatible = "zmk,keymap"; \
+            layer_ ## NAME { \
+                display-name = DESC; \
+                bindings = <LAYOUT>; \
+                sensor-bindings = <SENSORS>; \
+            }; \
+        }; \
+    };
+
+#define ___ &trans
+
+#define MTS_LC(K) &mt_slow LC(K) K
+#define RS_CAPSW &shift_capsword RSHIFT 0
+
+/* Base layer
+    Finnish stylee, right of L are Ö and Ä; key between . and RSHIFT is -_
+    Romanian letters on AltGr (They only work properly with SFS 5966 with "comma below" amendment)
+    RET key hold is Fn_Nav layer (tap it with Config key to lock it)
+    SPC key hold is Numpad layer, + Config lock
+    SYMBOL key hold is Symbols layer, + Config lock
+    RCTRL hold is RCTRL, tap is Application key
+    BSPC and DEL have hold to add CTRL for word-at-a-time. Quick tap and hold repeats character-at-a-time.
+    right shift is CAPSWORD on tap, Shift on hold
+ */
+LAYER(Alpha, "Alpha",
+    &inc_dec_kp UP DOWN &inc_dec_kp LEFT RIGHT,
+// ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
+    &kp ESC         &Q_ro_abr       &W_ro_aci       &kp E           &R_ro_ici       &kp T                                           &kp Y           &kp U           &kp I           &kp O           &kp P           MTS_LC(BSPC)
+    &kp TAB         &kp A           &kp S           &kp D           &F_ro_sco       &G_ro_tco    /*├───────────────┬───────────────┤*/&kp H         &kp J           &kp K           &kp L           &kp FI_O_UMLAUT &kp FI_A_UMLAUT
+    &kp LSHIFT      &kp Z           &kp X           &kp C           &kp V           &kp B           &kp F13         &kp F14         &kp N           &kp M           &kp COMMA       &kp DOT         &kp FI_MINUS    RS_CAPSW
+ /*╰───────────────┴───────────────┤*/&td_config    &kp LGUI        &kp LALT        &kp LCTRL       &lt FN_NAV RET  &lt NUMPAD SPC  &mo SYMBOL      &mt RCTRL K_APP &kp RALT        MTS_LC(DEL)  //├───────────────┴───────────────╯
+//                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
+)
+// Available RALT keys: C V B Y U H J
+
+/* Gaming layer
+    Most used keys, left hand only
+    Leaves modifiers shift, aLt, ctrl but overrides LGUI to overlay GameX layer (don't want WinKey in games anyway)
+    Has some free slots: A, Z, left roller click. Z is explicitly in GameX just where it is on the Alpha layer though... Would have to test in a few games
+*/
+LAYER(Game, "Game",
+    &scroll_up_down,
+// ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
+    ___             &kp N1          &kp N2          &kp N3          &kp N4          &kp N5                                          ___             ___             ___             ___             ___             ___   
+    ___             ___             &kp Q           &kp W           &kp E           &kp R        /*├───────────────┬───────────────┤*/___           ___             ___             ___             ___             ___   
+    ___             ___             &kp A           &kp S           &kp D           &kp F           ___             ___             ___             ___             ___             ___             ___             ___   
+ /*╰───────────────┴───────────────┤*/___           &mo GAME_X      ___             ___             &kp SPACE       ___             ___             ___             ___             ___          //├───────────────┴───────────────╯
+//                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
+)
+
+/* Gaming extra layer
+    Some more keys used in games
+    Maybe should add more
+*/
+LAYER(GameX, "Game Extra",
+    &scroll_up_down,
+// ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
+    &kp FI_SECTION  &kp F1          &kp F2          &kp F3          &kp F4          &kp N6                                          ___             ___             ___             ___             ___             ___
+    &kp M           &kp I           &kp J           &kp T           &kp Y           &kp G        /*├───────────────┬───────────────┤*/___           ___             ___             ___             ___             ___
+    &kp CAPS        &kp Z           &kp X           &kp C           &kp V           &kp B           ___             ___             ___             ___             ___             ___             ___             ___
+ /*╰───────────────┴───────────────┤*/___           ___             ___             ___             ___             ___             ___             ___             ___             ___          //├───────────────┴───────────────╯
+//                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
+)
+
+/* Function keys and moving around
+    Left hand mouse, right hand navigation
+    RET/FN_NAV + SPC/NUMPAD => repeat last key
+    RET/FN_NAV + SYMBOL => momentary Media layer
+*/
+LAYER(Fn_Nav, "Fn Nav",
+    &inc_dec_kp LC(MINUS) LC(FSLH) &scroll_up_down,
+// ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
+    ___             &kp F1          &kp F2          &kp F3          &kp F4          &kp F5                                          &kp F6          &kp F7          &kp F8          &kp F9          &kp F10         &kp F11
+    ___             &mkp MB4        &mkp LCLK       &mmv MOVE_UP    &mkp RCLK       &mkp MCLK    /*├───────────────┬───────────────┤*/&kp INSERT    &kp HOME        &kp UP          &kp END         &kp PAGE_UP     &kp F12
+    ___             &mkp MB5        &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_RIGHT &m_emoji        &reset_zoom     ___             &kp PRINTSCREEN &kp LEFT        &kp DOWN        &kp RIGHT       &kp PAGE_DOWN   ___   
+ /*╰───────────────┴───────────────┤*/___           ___             ___             ___             ___             &key_repeat     &mo MEDIA       ___             ___             ___          //├───────────────┴───────────────╯ 
+//                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
+)
+
+/* Symbols layer
+    Top row has numbers
+    Middle row has Shift+numbers
+    Bottom row has AltGr+numbers
+    Then other keys where they fit... Tab has <> key, can be AltGr'd for | or use SYMBOL+Z (AltGr+1 doesn't do anything so it's free)
+    +?\ key to right of 0 is SYMBOL+BSPC; '* key to left of RET is SYMBOL+Ä
+    SYMBOL key will release the layer if it's locked, because it's momentary in the base layer and transparent here (unless NUMPAD is locked on top, then you have to tap it twice)
+*/
+LAYER(Symbol, "Symbols",
+    &inc_dec_kp PG_UP PG_DN &inc_dec_kp LC(RIGHT) LC(LEFT),
+// ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
+    &kp FI_SECTION  &kp N1          &kp N2          &kp N3          &kp N4          &kp N5                                          &kp N6          &kp N7          &kp N8          &kp N9          &kp N0          &kp FI_PLUS
+    &kp FI_LT       &kp EXCL        &kp AT          &kp HASH        &kp FI_CURREN   &kp PRCNT    /*├───────────────┬───────────────┤*/&kp FI_AMPS   &kp FI_SLASH    &kp FI_LPAR     &kp FI_RPAR     &kp FI_EQUAL    &kp FI_SQT
+    ___             &kp FI_PIPE     &kp FI_AT       &kp FI_GBP      &kp FI_DOLLAR   &kp FI_PERMILLE ___             ___             &kp FI_SL9QM    &kp FI_LBRC     &kp FI_LBKT     &kp FI_RBKT     &kp FI_RBRC     ___   
+/* ╰───────────────┴───────────────┤*/___           ___             ___             ___             ___             ___             ___             ___             ___             ___          //├───────────────┴───────────────╯
+//                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
+)
+
+/* Numpad layer
+    Sends actual numpad keys, not plain number keys
+    KP_DOT is used for a comma in Finnish decimals; NUMLOCK_DOT is an actual dot or NUMLOCK on hold
+    SYMBOL key releases locked layer
+    ABCDEF free for hex; moved FI_EQUAL to G; Calculator on V
+    TODO make a way to enable AltGr + numpad keys? AltGr is overridden by KP_DOT here...
+*/
+#define NUMLOCK_DOT &mt KP_NUMLOCK DOT
+
+LAYER(Numpad, "Num Pad",
+    &inc_dec_kp UP DOWN &inc_dec_kp LEFT RIGHT,
+// ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
+    ___             &kp KP_N1       &kp KP_N2       &kp KP_N3       &kp KP_N4       &kp KP_N5                                       &kp KP_N6       &kp KP_N7       &kp KP_N8       &kp KP_N9       &kp KP_MINUS    ___
+    ___             ___             ___             ___             ___             &kp FI_EQUAL /*├───────────────┬───────────────┤*/&m_caret      &kp KP_N4       &kp KP_N5       &kp KP_N6       &kp KP_PLUS     &kp KP_DIVIDE
+    ___             ___             ___             ___             &kp C_AL_CALC   ___             ___             ___             &kp PRCNT       &kp KP_N1       &kp KP_N2       &kp KP_N3       &kp KP_ENTER    &kp KP_MULTIPLY
+/* ╰───────────────┴───────────────┤*/___           ___             ___             ___             ___             ___             &tog NUMPAD     &kp KP_N0       &kp KP_DOT      NUMLOCK_DOT  //├───────────────┴───────────────╯
+//                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
+)
+
+/* Media layer
+    Volume controls, playback etc
+    Only momentary from FN_NAV + SYMBOL for now
+*/
+LAYER(Media, "Media",
+    &inc_dec_kp C_VOL_UP C_VOL_DN,
+// ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
+    ___             ___             ___             ___             ___             ___                                             ___             ___             ___             ___             ___             ___   
+    ___             ___             ___             ___             ___             ___          /*├───────────────┬───────────────┤*/___           &kp C_RW        ___             &kp C_FF        ___             ___   
+    ___             ___             ___             &kp C_VOL_DN    &kp C_MUTE      &kp C_VOL_UP    &kp C_MUTE      ___             ___             &kp C_PREV      &kp C_PP        &kp C_NEXT      ___             ___   
+/* ╰───────────────┴───────────────┤*/___           ___             ___             ___             ___             ___             ___             ___             ___             ___          //├───────────────┴───────────────╯
+//                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
+)
+
+/* Sudoku layer
+    For using Sven's Sudoku Pad
+    Number pad is upside down, using standard number keys; Navigation is on the left side; Various extra keys for mode changes, undo/redo etc.
+    I guess I could just turn the numpad upside down in Sudoku Pad, but that's not how I'm used to it... On the other hand, it would be a nice standard-number-key numpad
+*/
+LAYER(Sudoku, "Sudoku",
+    &inc_dec_kp UP DOWN &inc_dec_kp LEFT RIGHT,
+// ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
+    ___             ___             ___             ___             ___             ___                                             &kp LC(Y)       &kp N1          &kp N2          &kp N3          ___             ___   
+    ___             &kp LC(A)       &kp Z           &kp UP          &kp C           &kp V        /*├───────────────┬───────────────┤*/&kp LC(I)     &kp N4          &kp N5          &kp N6          ___             ___   
+    ___             &kp LC(Z)       &kp LEFT        &kp DOWN        &kp RIGHT       &kp B           ___             ___             ___             &kp N7          &kp N8          &kp N9          ___             ___   
+/* ╰───────────────┴───────────────┤*/___           &kp X           ___             ___             ___             ___             ___             &kp N0          &kp KP_DIVIDE   ___          //├───────────────┴───────────────╯
+//                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
+)
+
+/* Config layer
+    Output toggle BLE/USB
+    Bluetooth profile management: 10 profiles; tap to select, hold to disconnect; clear current on long hold on X
+    Backlight control: set, toggle, increase, decrease
+    Layer toggles: FN_NAV, NUMPAD, SYMBOL, S => SUDOKU, G => GAME
+    Leader keys: Left on LGUI, Right on DEL (use leader key on side you want to reset/bootloader etc)
+    Extra triangle of keys from Finnish keyboard: acute (´`¸˛), A with ring (Å), umlaut(¨^~¯)
+*/
+#define BTSD(P) &bt_sel_disc P P
+#define BTCLR &h_btclr 0 0
+#define RESET &h_reset 0 0
+#define BOOTLOAD &h_bootloader 0 0
+
+LAYER(Config, "Config",
+    &bt_adjust &bri_adjust,
+// ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
+    &out OUT_TOG    BTSD(0)         BTSD(1)         BTSD(2)         BTSD(3)         BTSD(4)                                         BTSD(5)         BTSD(6)         BTSD(7)         BTSD(8)         BTSD(9)         &kp FI_ACUTE
+    ___             ___             &tog SUDOKU     ___             ___             &tog GAME    /*├───────────────┬───────────────┤*/___           ___             &kp PAUSE_BREAK &kp SCROLLLOCK  &kp FI_A_RING   &kp FI_UMLAUT
+    ___             &bl BL_SET 10   BTCLR           &bl BL_DEC      &bl BL_TOG      &bl BL_INC      ___             &bl BL_TOG      ___             ___             ___             ___             ___             ___   
+/* ╰───────────────┴───────────────┤*/___           &leader         ___             ___             &tog FN_NAV     &tog NUMPAD     &tog SYMBOL     ___             ___             &leader      //├───────────────┴───────────────╯
+//                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
+)
+
+/* Empty layer for copy & paste */
+//      &inc_dec_kp UP DOWN &inc_dec_kp LEFT RIGHT
+//  // ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
+//      ___             ___             ___             ___             ___             ___                                             ___             ___             ___             ___             ___             ___   
+//      ___             ___             ___             ___             ___             ___          /*├───────────────┬───────────────┤*/___           ___             ___             ___             ___             ___   
+//      ___             ___             ___             ___             ___             ___             ___             ___             ___             ___             ___             ___             ___             ___   
+//  /* ╰───────────────┴───────────────┤*/___           ___             ___             ___             ___             ___             ___             ___             ___             ___          //├───────────────┴───────────────╯
+//  //                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
+
+/* Combos */
+
+// Not sure how I feel about these... They work, but sometimes you get spurious results if you don't mash the keys just right.
+// We have rollers for this stuff :) But was a fun experiment...
+
+/*                KEY POSITIONS
+ ╭─────────────────────────╮       ╭─────────────────────────╮
+ │ LT5 LT4 LT3 LT2 LT1 LT0 │       │ RT0 RT1 RT2 RT3 RT4 RT5 │
+ │ LM5 LM4 LM3 LM2 LM1 LM0 ╰──╮ ╭──╯ RM0 RM1 RM2 RM3 RM4 RM5 │
+ │ LB5 LB4 LB3 LB2 LB1 LB0 LR0╰┬╯RR0 RB0 RB1 RB2 RB3 RB4 RB5 │
+ ╰───────╮ LH4 LH3 LH2 LH1 LH0 │ RH0 RH1 RH2 RH3 RH4 ╭───────╯
+         ╰─────────────────────┴─────────────────────╯ */
+
+/*  ESC     Q       W       E       R       T                       Y       U       I       O       P       BSP
+ *                         MB3                                                                                 
+ *  TAB     A  MB4  S  MB1  D  MB2  F  MB5  G                       H       J  HOM  K  END  L       Ö       Ä  
+ *                         MUP                                                      UP     PGUP                
+ *  LSH     Z       X  MLT  C  MRT  V       B                       N       M   LT  ,  RT   .       -       RSH
+ *                         MDN                                                      DN     PGDN                
+ *                  CFG     GUI     ALT     CTL     ENT     SPC     SYM     CTL     RA      DEL                
+ */
+
+#define COMBO_TERM_FAST 18
+#define COMBO_TERM_SLOW 30
+
+#define COMBO_IDLE_FAST 150
+#define COMBO_IDLE_SLOW 50
+
+// TODO: investigate the slow/fast stuffs
+// TODO: maybe add other layers to the combos, but it gets a bit messy (I left FN_NAV out of the mouse & nav ones as there's no point if you're in the nav layer already)
+// TODO: if mouse press / release are possible, maybe swipe gestures for mobile? Maybe &mkp would work with macro_press?
+
+// Mouse move/click
+ZMK_COMBO(mup,      &mmv MOVE_UP,       LM2 LB2,    ALPHA        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(mdown,    &mmv MOVE_DOWN,     LB2 LH3,    ALPHA        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(mleft,    &mmv MOVE_LEFT,     LB2 LB3,    ALPHA        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(mright,   &mmv MOVE_RIGHT,    LB1 LB2,    ALPHA        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(mb1,      &mkp LCLK,          LM2 LM3,    ALPHA        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(mb2,      &mkp RCLK,          LM1 LM2,    ALPHA        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(mb3,      &mkp MCLK,          LT2 LM2,    ALPHA        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(mb4,      &mkp MB4,           LM3 LM4,    ALPHA        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(mb5,      &mkp MB5,           LM0 LM1,    ALPHA        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+
+// Navigation
+ZMK_COMBO(up,       &kp UP,             RM2 RB2,    ALPHA        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(down,     &kp DOWN,           RB2 RH3,    ALPHA        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(left,     &kp LEFT,           RB1 RB2,    ALPHA        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(right,    &kp RIGHT,          RB2 RB3,    ALPHA        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(home,     &kp HOME,           RM1 RM2,    ALPHA        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(end,      &kp END,            RM2 RM3,    ALPHA        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(pgup,     &kp PG_UP,          RM3 RB3,    ALPHA        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(pgdn,     &kp PG_DN,          RB3 RH4,    ALPHA        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+
+#undef ZMK_LEADER_SEQUENCE
+#define ZMK_LEADER_SEQUENCE(NAME, BINDINGS, SEQUENCE) \
+    / { \
+        behaviors { \
+            leader: leader { \
+                compatible = "zmk,behavior-leader-key"; \
+                #binding-cells = <0>; \
+                ignore-keys = <LSHFT RSHFT>; \
+                leader_sequence_ ## NAME { \
+                    bindings = <BINDINGS>; \
+                    sequence = <SEQUENCE>; \
+                }; \
+            }; \
+        }; \
+    };
+
+// BLE and USB
+#ifdef CONFIG_WIRELESS
+ZMK_LEADER_SEQUENCE(usb,        &out OUT_USB,   U S B)
+ZMK_LEADER_SEQUENCE(ble,        &out OUT_BLE,   B L E)
+#endif // CONFIG_WIRELESS
+
+// Reset and bootloader. Use the leader key on the side you want to reset/bootloader
+// These are quite good as I never want to do these by accident... They used to be long holds but this frees up their config layer keys too.
+ZMK_LEADER_SEQUENCE(reset,      &sys_reset,     R E S E T)
+ZMK_LEADER_SEQUENCE(boot,       &bootloader,    B O O T)
+
+// System power and sleep/wake (don't seem to work)
+//ZMK_LEADER_SEQUENCE(power,      &kp SYS_PWR,    P O W E R)
+//ZMK_LEADER_SEQUENCE(sleep,      &kp SYS_SLEEP,  S L E E P)
+//ZMK_LEADER_SEQUENCE(wake,       &kp SYS_WAKE,   W A K E)
+
+// TODO: add some more cool leader key sequences
+
+/* Temp just splatting this stuff here; there was a reset one too but I can't remember the line for that right now
+cd app
+west build -p -d build/left -b nice_nano_v2 -S studio-rpc-usb-uart -- -DSHIELD="rolio_left nice_view" -DZMK_CONFIG="/workspaces/zmk-config/config" -DEXTRA_CONF_FILE=/workspaces/zmk-config/config/rolio-nice_view.conf -DZMK_EXTRA_MODULES="/workspaces/zmk-config/;/workspaces/zmk-modules/zmk-leader-key/"
+west build -d build/left
+west build -p -d build/right -b nice_nano_v2 -S studio-rpc-usb-uart -- -DSHIELD="rolio_right nice_view" -DZMK_CONFIG="/workspaces/zmk-config/config" -DEXTRA_CONF_FILE=/workspaces/zmk-config/config/rolio-nice_view.conf -DZMK_EXTRA_MODULES="/workspaces/zmk-config/;/workspaces/zmk-modules/zmk-leader-key/"
+west build -d build/right
+*/

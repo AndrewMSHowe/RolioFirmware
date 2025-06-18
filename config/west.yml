@@ -4,6 +4,8 @@ manifest:
       url-base: https://github.com/zmkfirmware
     - name: elpekenin
       url-base: https://github.com/elpekenin
+    - name: urob
+      url-base: https://github.com/urob
   projects:
     - name: zmk
       import: app/west.yml
@@ -12,5 +14,11 @@ manifest:
     - name: zmk-userspace
       remote: elpekenin
       revision: main
+    - name: zmk-helpers
+      remote: urob
+      revision: main
+    - name: zmk-leader-key
+      remote: urob
+      revision: v0.2.1
   self:
     path: config
