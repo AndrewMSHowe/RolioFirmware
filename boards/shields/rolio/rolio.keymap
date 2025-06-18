@@ -22,7 +22,8 @@
 #include <dt-bindings/zmk/pointing.h>
 
 /* urob's helpers plus my additions */
-#include "../../../config/helper.h"
+#include "zmk-helpers/helper.h"
+
 #define ZMK_BEHAVIOR_CORE_sensor_rotate compatible = "zmk,behavior-sensor-rotate";       #binding-cells = <0>; #sensor-binding-cells = <0>
 #define ZMK_SENSOR_ROTATE(NAME, UP, DOWN, ...) ZMK_BEHAVIOR(NAME, sensor_rotate, bindings = <UP>, <DOWN>; __VA_ARGS__)
 
@@ -35,7 +36,7 @@
 #define FI_GBP FI_POUND_SIGN
 
 /* Key labels */
-#include "../../../config/rolio_key_labels.h"
+#include "zmk-helpers/key-labels/rolio46.h"
 
 /* Keymap layers */
 #define ALPHA     0
@@ -456,8 +457,8 @@ ZMK_LEADER_SEQUENCE(boot,       &bootloader,    B O O T)
 
 /* Temp just splatting this stuff here; there was a reset one too but I can't remember the line for that right now
 cd app
-west build -p -d build/left -b nice_nano_v2 -S studio-rpc-usb-uart -- -DSHIELD="rolio_left nice_view" -DZMK_CONFIG="/workspaces/zmk-config/config" -DEXTRA_CONF_FILE=/workspaces/zmk-config/config/rolio-nice_view.conf -DZMK_EXTRA_MODULES="/workspaces/zmk-config/;/workspaces/zmk-modules/zmk-leader-key/"
+west build -p -d build/left -b nice_nano_v2 -S studio-rpc-usb-uart -- -DSHIELD="rolio_left nice_view" -DZMK_CONFIG="/workspaces/zmk-config/config" -DEXTRA_CONF_FILE=/workspaces/zmk-config/config/rolio-nice_view.conf -DZMK_EXTRA_MODULES="/workspaces/zmk-config/;/workspaces/zmk-modules/zmk-helpers/;/workspaces/zmk-modules/zmk-leader-key/"
 west build -d build/left
-west build -p -d build/right -b nice_nano_v2 -S studio-rpc-usb-uart -- -DSHIELD="rolio_right nice_view" -DZMK_CONFIG="/workspaces/zmk-config/config" -DEXTRA_CONF_FILE=/workspaces/zmk-config/config/rolio-nice_view.conf -DZMK_EXTRA_MODULES="/workspaces/zmk-config/;/workspaces/zmk-modules/zmk-leader-key/"
+west build -p -d build/right -b nice_nano_v2 -S studio-rpc-usb-uart -- -DSHIELD="rolio_right nice_view" -DZMK_CONFIG="/workspaces/zmk-config/config" -DEXTRA_CONF_FILE=/workspaces/zmk-config/config/rolio-nice_view.conf -DZMK_EXTRA_MODULES="/workspaces/zmk-config/;/workspaces/zmk-modules/zmk-helpers/;/workspaces/zmk-modules/zmk-leader-key/"
 west build -d build/right
 */
