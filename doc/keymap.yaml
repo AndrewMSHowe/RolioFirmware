@@ -1,0 +1,492 @@
+layout: {zmk_keyboard: rolio}
+layers:
+  Alpha:
+  - ESC
+  - 'Q  Ă'
+  - 'W  Â'
+  - 'E  €'
+  - 'R  Î'
+  - 'T  Þ'
+  - Y
+  - U
+  - 'I  ı'
+  - 'O  Œ'
+  - {t: 'P  ˀ', s: '   ʾ'}
+  - BSPC
+  - TAB
+  - 'A  Ə'
+  - 'S  ẞ'
+  - 'D  Ð'
+  - 'F  Ș'
+  - 'G  Ț'
+  - H
+  - J
+  - 'K  ĸ'
+  - 'L  ¬'
+  - 'Ö  Ø'
+  - 'Ä  Æ'
+  - LSHIFT
+  - 'Z  Ʒ'
+  - {t: 'X  ×', s: '   ·'}
+  - C
+  - V
+  - B
+  - F13
+  - F14
+  - 'N  Ŋ'
+  - {t: 'M  µ', s: '   —'}
+  - {t: ',  ’', s: ';  ‘'}
+  - {t: '.  ˔', s: ':  ˙'}
+  - {t: '-  _', s: '–  ,'}
+  - RSHIFT
+  - {h: CONFIG}
+  - {h: LGUI}
+  - {h: LALT}
+  - {h: LCTRL}
+  - {t: ENTER, h: Fn Nav}
+  - {t: SPACE, h: Num Pad}
+  - {h: Symbols}
+  - {t: MENU, h: RCTRL}
+  - {h: RALT}
+  - DEL
+  Alpha+Sym:
+  - {t: ESC, h: '§½'}
+  - {t: Q, h: '1'}
+  - {t: W, h: '2'}
+  - {t: E, h: '3'}
+  - {t: R, h: '4'}
+  - {t: T, h: '5'}
+  - {t: Y, h: '6'}
+  - {t: U, h: '7'}
+  - {t: I, h: '8'}
+  - {t: O, h: '9'}
+  - {t: P, h: '0'}
+  - {t: BSPC, h: '+?'}
+  - {t: TAB, h: '<>'}
+  - {t: A, h: '!'}
+  - {t: S, h: '"'}
+  - {t: D, h: '#'}
+  - {t: F, h: '¤'}
+  - {t: G, h: '%'}
+  - {t: H, h: '&'}
+  - {t: J, h: '/'}
+  - {t: K, h: '('}
+  - {t: L, h: ')'}
+  - {t: Ö, h: '='}
+  - {t: Ä, h: "'*"}
+  - {t: ▽, type: trans}
+  - {t: Z, h: '|'}
+  - {t: X, h: '@”'}
+  - {t: C, h: '£»'}
+  - {t: V, h: '$«'}
+  - {t: B, h: '‰“'}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: N, h: '‚„'}
+  - {t: M, h: '{'}
+  - {t: ',', s: ';', h: '['}
+  - {t: '.', s: ':', h: ']'}
+  - {t: '-', s: '_', h: '}'}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  Game:
+  - {t: ▽, type: trans}
+  - '1'
+  - '2'
+  - '3'
+  - '4'
+  - '5'
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - Q
+  - W
+  - E
+  - R
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - A
+  - S
+  - D
+  - F
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - Game Extra
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - SPACE
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  Game Extra:
+  - '§'
+  - F1
+  - F2
+  - F3
+  - F4
+  - '6'
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - M
+  - I
+  - J
+  - T
+  - Y
+  - G
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - CAPS
+  - Z
+  - X
+  - C
+  - V
+  - B
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: held}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  Fn Nav:
+  - {t: ▽, type: trans}
+  - F1
+  - F2
+  - F3
+  - F4
+  - F5
+  - F6
+  - F7
+  - F8
+  - F9
+  - F10
+  - F11
+  - {t: ▽, type: trans}
+  - Mouse Button 4
+  - Left Click
+  - Mouse Up
+  - Right Click
+  - Middle Click
+  - INSERT
+  - HOME
+  - UP
+  - END
+  - PAGE UP
+  - F12
+  - {t: ▽, type: trans}
+  - Mouse Button 5
+  - Mouse Left
+  - Mouse Down
+  - Mouse Right
+  - Emoji
+  - Reset zoom
+  - {t: ▽, type: trans}
+  - PRINT SCREEN
+  - LEFT
+  - DOWN
+  - RIGHT
+  - PAGE DOWN
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {type: held}
+  - Repeat
+  - {h: Media}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  Symbols:
+  - {t: '§  ¬', s: '½'}
+  - '1'
+  - '2'
+  - '3'
+  - '4'
+  - '5'
+  - '6'
+  - '7'
+  - '8'
+  - '9'
+  - '0'
+  - {t: '+  \', s: '?  ¿'}
+  - {t: '<', s: '>', right: '|'}
+  - '!  ¡'
+  - '@  ”'
+  - '#  »'
+  - '¤  «'
+  - '%  “'
+  - '&  „'
+  - '/'
+  - '('
+  - ')'
+  - '=  °'
+  - {t: "'  ˇ", s: '*  ˘'}
+  - {t: ▽, type: trans}
+  - '|'
+  - {t: '@', s: '”'}
+  - {t: '£', s: '»'}
+  - {t: '$', s: '«'}
+  - {t: '‰', s: '“'}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: '‚', s: '„'}
+  - '{'
+  - '['
+  - ']'
+  - {t: '}', s: '°'}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: held}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  Num Pad:
+  - {t: ▽, type: trans}
+  - KP 1
+  - KP 2
+  - KP 3
+  - KP 4
+  - KP 5
+  - KP 6
+  - KP 7
+  - KP 8
+  - KP 9
+  - "KP -"
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - '='
+  - ^
+  - KP 4
+  - KP 5
+  - KP 6
+  - KP +
+  - KP /
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - Calculator
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - '%'
+  - KP 1
+  - KP 2
+  - KP 3
+  - KP ENTER
+  - KP *
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: held}
+  - {t: Num Pad, h: toggle}
+  - KP 0
+  - KP ,
+  - {t: '.', h: NUMLOCK}
+  Media:
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - RW
+  - {t: ▽, type: trans}
+  - FF
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - Volume Down
+  - Mute
+  - Volume Up
+  - Mute
+  - Close Magnifier
+  - {t: ▽, type: trans}
+  - PREV
+  - PP
+  - NEXT
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: held}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: held}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  Sudoku:
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - Redo
+  - '1'
+  - '2'
+  - '3'
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - Select All
+  - Digit Mode
+  - Up
+  - Centre Mode
+  - Colour Mode
+  - Invert Selection
+  - '4'
+  - '5'
+  - '6'
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - Undo
+  - Left
+  - Down
+  - Right
+  - Pen Tool
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - '7'
+  - '8'
+  - '9'
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - Corner Mode
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - '0'
+  - Letter Tool
+  - {t: ▽, type: trans}
+  Config:
+  - Toggle BLE USB
+  - {t: Select, h: Disconnect, s: Profile 0}
+  - {t: Select, h: Disconnect, s: Profile 1}
+  - {t: Select, h: Disconnect, s: Profile 2}
+  - {t: Select, h: Disconnect, s: Profile 3}
+  - {t: Select, h: Disconnect, s: Profile 4}
+  - {t: Select, h: Disconnect, s: Profile 5}
+  - {t: Select, h: Disconnect, s: Profile 6}
+  - {t: Select, h: Disconnect, s: Profile 7}
+  - {t: Select, h: Disconnect, s: Profile 8}
+  - {t: Select, h: Disconnect, s: Profile 9}
+  - {t: '´¸', s: '`˛'}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - Sudoku
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - Game
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - PAUSE BREAK
+  - SCROLL LOCK
+  - 'Å'
+  - {t: '¨~', s: '^¯'}
+  - {t: ▽, type: trans}
+  - Backlight 10
+  - {h: Clr Profile}
+  - Backlight -
+  - Backlight Toggle
+  - Backlight +
+  - {t: ▽, type: trans}
+  - Backlight Toggle
+  - Alpha+Sym
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: held}
+  - Leader
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - Fn Nav
+  - Num Pad
+  - Symbols
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - Leader
