@@ -6,10 +6,10 @@ manifest:
       url-base: https://github.com/elpekenin
     - name: urob
       url-base: https://github.com/urob
-    - name: AndrewMSHowe
-      url-base: https://github.com/AndrewMSHowe
     - name: joelspadin
       url-base: https://github.com/joelspadin
+    - name: AndrewMSHowe
+      url-base: https://github.com/AndrewMSHowe
   projects:
     - name: zmk
       import: app/west.yml
@@ -19,8 +19,8 @@ manifest:
       remote: elpekenin
       revision: main
     - name: zmk-helpers
-      remote: AndrewMSHowe
-      revision: add-rolio46-key-labels
+      remote: urob
+      revision: main
     - name: zmk-leader-key
       remote: urob
       revision: v0.2.1
