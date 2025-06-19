@@ -281,6 +281,9 @@ LAYER(GameX, "Game Extra",
 //                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
 )
 
+// A B C D E F G I J M Q R S T V W X Y Z
+// H K L M N O P U
+
 /* Function keys and moving around
     Left hand mouse, right hand navigation
     RET/FN_NAV + SPC/NUMPAD => repeat last key
