@@ -12,7 +12,7 @@ layers:
   - 'I  ı'
   - 'O  Œ'
   - {t: 'P  ˀ', s: '   ʾ'}
-  - BSPC
+  - {t: BSPC, h: BSPC-word}
   - TAB
   - 'A  Ə'
   - 'S  ẞ'
@@ -25,7 +25,7 @@ layers:
   - 'L  ¬'
   - 'Ö  Ø'
   - 'Ä  Æ'
-  - LSHIFT
+  - {h: LSHIFT}
   - 'Z  Ʒ'
   - {t: 'X  ×', s: '   ·'}
   - C
@@ -38,17 +38,17 @@ layers:
   - {t: ',  ’', s: ';  ‘'}
   - {t: '.  ˔', s: ':  ˙'}
   - {t: '-  _', s: '–  ,'}
-  - RSHIFT
-  - {h: CONFIG}
+  - {t: CAPSWORD, h: RSHIFT}
+  - {h: Config}
   - {h: LGUI}
-  - {h: LALT}
+  - {h: ALT}
   - {h: LCTRL}
   - {t: ENTER, h: Fn Nav}
   - {t: SPACE, h: Num Pad}
   - {h: Symbols}
-  - {t: MENU, h: RCTRL}
-  - {h: RALT}
-  - DEL
+  - {t: Menu, h: RCTRL}
+  - {h: AltGr}
+  - {t: DEL, h: DEL-word}
   Alpha+Sym:
   - {t: ESC, h: '§½'}
   - {t: Q, h: '1'}
@@ -74,79 +74,79 @@ layers:
   - {t: L, h: ')'}
   - {t: Ö, h: '='}
   - {t: Ä, h: "'*"}
-  - {t: ▽, type: trans}
+  - {h: LSHIFT}
   - {t: Z, h: '|'}
   - {t: X, h: '@”'}
   - {t: C, h: '£»'}
   - {t: V, h: '$«'}
   - {t: B, h: '‰“'}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - F13
+  - F14
   - {t: N, h: '‚„'}
   - {t: M, h: '{'}
   - {t: ',', s: ';', h: '['}
   - {t: '.', s: ':', h: ']'}
   - {t: '-', s: '_', h: '}'}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - {t: CAPSWORD, h: RSHIFT}
+  - {h: Config}
+  - {h: LGUI}
+  - {h: ALT}
+  - {h: LCTRL}
+  - {t: ENTER, h: Fn Nav}
+  - {t: SPACE, h: Num Pad}
+  - {h: Symbols}
+  - {t: Menu, h: RCTRL}
+  - {h: AltGr}
+  - {t: DEL, h: DEL-word}
   Game:
-  - {t: ▽, type: trans}
+  - {t: ESC, type: trans}
   - '1'
   - '2'
   - '3'
   - '4'
   - '5'
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - {t: Y, type: trans}
+  - {t: U, type: trans}
+  - {t: I, type: trans}
+  - {t: O, type: trans}
+  - {t: P, type: trans}
+  - {t: BSPC, type: trans}
+  - {t: TAB, type: trans}
+  - {t: A, type: trans}
   - Q
   - W
   - E
   - R
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - {t: H, type: trans}
+  - {t: J, type: trans}
+  - {t: K, type: trans}
+  - {t: L, type: trans}
+  - {t: Ö, type: trans}
+  - {t: Ä, type: trans}
+  - {h: LSHIFT, type: trans}
+  - {t: Z, type: trans}
   - A
   - S
   - D
   - F
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - Game Extra
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - ENTER
+  - {t: F14, type: trans}
+  - {t: N, type: trans}
+  - {t: M, type: trans}
+  - {t: ',', type: trans}
+  - {t: '.', type: trans}
+  - {t: '-', type: trans}
+  - {h: RSHIFT, type: trans}
+  - {h: Config, type: trans}
+  - {h: Game Extra}
+  - {h: ALT, type: trans}
+  - {h: LCTRL, type: trans}
   - SPACE
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - {t: SPACE, h: Num Pad, type: trans}
+  - {h: Symbols, type: trans}
+  - {t: Menu, h: RCTRL, type: trans}
+  - {h: AltGr, type: trans}
+  - {t: DEL, h: DEL-word, type: trans}
   Game Extra:
   - '§'
   - F1
@@ -187,7 +187,7 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {t: ▽, type: held}
+  - {h: Game Extra, type: held}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -197,7 +197,7 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   Fn Nav:
-  - {t: ▽, type: trans}
+  - {t: ESC, type: trans}
   - F1
   - F2
   - F3
@@ -209,7 +209,7 @@ layers:
   - F9
   - F10
   - F11
-  - {t: ▽, type: trans}
+  - {t: TAB, type: trans}
   - Mouse Button 4
   - Left Click
   - Mouse Up
@@ -221,30 +221,79 @@ layers:
   - END
   - PAGE UP
   - F12
-  - {t: ▽, type: trans}
+  - {h: LSHIFT, type: trans}
   - Mouse Button 5
   - Mouse Left
   - Mouse Down
   - Mouse Right
   - Emoji
   - Reset zoom
-  - {t: ▽, type: trans}
+  - {t: F14, type: trans}
   - PRINT SCREEN
   - LEFT
   - DOWN
   - RIGHT
   - PAGE DOWN
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {type: held}
+  - {t: CAPSWORD, h: RSHIFT, type: trans}
+  - {h: Config}
+  - {h: LGUI}
+  - {h: ALT}
+  - {h: LCTRL}
+  - {t: ENTER, h: Fn Nav, type: held}
   - Repeat
   - {h: Media}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - {t: Menu, h: RCTRL}
+  - {h: AltGr}
+  - {t: DEL, h: DEL-word}
+  Num Pad:
+  - {t: ESC, type: trans}
+  - KP 1
+  - KP 2
+  - KP 3
+  - KP 4
+  - KP 5
+  - KP 6
+  - KP 7
+  - KP 8
+  - KP 9
+  - "KP -"
+  - {t: BSPC, type: trans}
+  - {t: TAB, type: trans}
+  - RALT
+  - D
+  - E
+  - F
+  - '='
+  - ^
+  - KP 4
+  - KP 5
+  - KP 6
+  - KP +
+  - KP /
+  - {t: LSHIFT, type: trans}
+  - '_'
+  - A
+  - B
+  - C
+  - Calculator
+  - Reset Zoom
+  - Close Magnifier
+  - '%'
+  - KP 1
+  - KP 2
+  - KP 3
+  - KP ENTER
+  - KP *
+  - {h: Config, type: trans}
+  - {h: LGUI, type: trans}
+  - {h: ALT, type: trans}
+  - {h: LCTRL, type: trans}
+  - {t: ENTER, h: Fn Nav, type: trans}
+  - {t: SPACE, h: Num Pad, type: held}
+  - {h: Symbols}
+  - KP 0
+  - KP ,
+  - {t: '.', h: NUMLOCK}
   Symbols:
   - {t: '§  ¬', s: '½'}
   - '1'
@@ -270,79 +319,30 @@ layers:
   - ')'
   - '=  °'
   - {t: "'  ˇ", s: '*  ˘'}
-  - {t: ▽, type: trans}
+  - {h: LSHIFT, type: trans}
   - '|'
   - {t: '@', s: '”'}
   - {t: '£', s: '»'}
   - {t: '$', s: '«'}
   - {t: '‰', s: '“'}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - {t: F13, type: trans}
+  - {t: F14, type: trans}
   - {t: '‚', s: '„'}
   - '{'
   - '['
   - ']'
   - {t: '}', s: '°'}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: held}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  Num Pad:
-  - {t: ▽, type: trans}
-  - KP 1
-  - KP 2
-  - KP 3
-  - KP 4
-  - KP 5
-  - KP 6
-  - KP 7
-  - KP 8
-  - KP 9
-  - "KP -"
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - '='
-  - ^
-  - KP 4
-  - KP 5
-  - KP 6
-  - KP +
-  - KP /
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - Calculator
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - '%'
-  - KP 1
-  - KP 2
-  - KP 3
-  - KP ENTER
-  - KP *
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: held}
-  - {t: Num Pad, h: toggle}
-  - KP 0
-  - KP ,
-  - {t: '.', h: NUMLOCK}
+  - {t: CAPSWORD, h: RSHIFT, type: trans}
+  - {h: Config}
+  - {h: LGUI}
+  - {h: ALT}
+  - {h: LCTRL}
+  - {t: ENTER, h: Fn Nav}
+  - {t: SPACE, h: Num Pad}
+  - {h: Symbols, type: held}
+  - {t: Menu, h: RCTRL}
+  - {h: AltGr}
+  - {t: DEL, h: DEL-word}
   Media:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -364,7 +364,7 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - RW
-  - {t: ▽, type: trans}
+  - STOP
   - FF
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -375,8 +375,8 @@ layers:
   - Mute
   - Volume Up
   - Mute
-  - Close Magnifier
-  - {t: ▽, type: trans}
+  - Max bright
+  - REC
   - PREV
   - PP
   - NEXT
@@ -386,9 +386,9 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {t: ▽, type: held}
+  - {h: Fn Nav, type: held}
   - {t: ▽, type: trans}
-  - {t: ▽, type: held}
+  - {h: Symbols, type: held}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -464,7 +464,7 @@ layers:
   - {t: ▽, type: trans}
   - PAUSE BREAK
   - SCROLL LOCK
-  - 'Å'
+  - {t: 'Å  ˝', s: '  ˚'}
   - {t: '¨~', s: '^¯'}
   - {t: ▽, type: trans}
   - Backlight 10
@@ -474,19 +474,19 @@ layers:
   - Backlight +
   - {t: ▽, type: trans}
   - Backlight Toggle
-  - Alpha+Sym
+  - Base Alpha
+  - Base Alpha+Sym
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: held}
+  - {h: Config, type: held}
   - Leader
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - Fn Nav
-  - Num Pad
-  - Symbols
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - {h: ALT, type: trans}
+  - {h: LCTRL, type: trans}
+  - Toggle Fn Nav
+  - Toggle Num Pad
+  - Toggle Symbols
+  - {h: RCTRL, type: trans}
+  - {h: AltGr, type: trans}
   - Leader

@@ -38,14 +38,18 @@
 #define FI_EURO (RA(ZMK_HID_USAGE(HID_USAGE_KEY, HID_USAGE_KEY_KEYBOARD_E)))
 #define FI_GBP FI_POUND_SIGN
 
+// Elpekenin's zmk-userspace behaviors
+#include "elpekenin/behaviors.dtsi"
+
+
 /* Keymap layers */
 #define ALPHA     0
 #define ALPSYM    1
 #define GAME      2
 #define GAME_X    3
 #define FN_NAV    4
-#define SYMBOL    5
-#define NUMPAD    6
+#define NUMPAD    5
+#define SYMBOL    6
 #define MEDIA     7
 #define SUDOKU    8
 #define CONFIG    9
@@ -126,6 +130,7 @@ ZMK_SENSOR_ROTATE(bri_adjust, &bl BL_INC, &bl BL_DEC)
 
 // Encoder to Mouse Scroll
 ZMK_SENSOR_ROTATE(scroll_up_down, &msc SCRL_UP, &msc SCRL_DOWN, tap-ms = <20>;)
+ZMK_SENSOR_ROTATE(scroll_left_right, &msc SCRL_LEFT, &msc SCRL_RIGHT, tap-ms = <20>;)
 
 // Bluetooth profile selection
 ZMK_SENSOR_ROTATE(bt_adjust, &bt BT_NXT, &bt BT_PRV)
@@ -233,11 +238,10 @@ LAYER(Alpha, "Alpha",
 )
 // Available RALT keys: C V B Y U H J
 
-/* Alpha Sym-Hold Layer
+/* Alpha Sym-Hold Layer (alternate base layer)
     Experimental: Now I have a repeat key, how about a toggleable layer that puts symbol layer on hold, passing through to the alpha layer on tap?
     Will lose BSPC word...
     Hold-tap with tap trans didn't work, so this has to be kept updated with the Alpha layer...
-    But now maybe this is basically a default layer and I could bring in the &df stuff...
 */
 
 #define SA &mt_short // SA because sym goes first
@@ -247,22 +251,22 @@ LAYER(AlphaSymHold, "Alpha+Sym",
 // ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
     SA FI_SECTION ESC SA N1 Q       SA N2 W         SA N3 E         SA N4 R         SA N5 T                                         SA N6 Y         SA N7 U         SA N8 I         SA N9 O         SA N0 P         SA FI_PLUS BSPC
     SA FI_LT TAB    SA EXCL A       SA AT S         SA HASH D       SA FI_CURREN F  SA PRCNT G   /*├───────────────┬───────────────┤*/SA FI_AMPS H  SA FI_SLASH J   SA FI_LPAR K    SA FI_RPAR L    SA FI_EQUAL FI_O_UMLAUT SA FI_SQT FI_A_UMLAUT
-    ___             SA FI_PIPE Z    SA FI_AT X      SA FI_GBP C     SA FI_DOLLAR V  SA FI_PERMILLE B ___            ___             SA FI_SL9QM N   SA FI_LBRC M    SA FI_LBKT COMMA SA FI_RBKT DOT SA FI_RBRC FI_MINUS ___
-/* ╰───────────────┴───────────────┤*/___           ___             ___             ___             ___             ___             ___             ___             ___             ___          //├───────────────┴───────────────╯
+    &kp LSHIFT      SA FI_PIPE Z    SA FI_AT X      SA FI_GBP C     SA FI_DOLLAR V  SA FI_PERMILLE B ___            ___             SA FI_SL9QM N   SA FI_LBRC M    SA FI_LBKT COMMA SA FI_RBKT DOT SA FI_RBRC FI_MINUS ___
+/* ╰───────────────┴───────────────┤*/&td_config    &kp LGUI        &kp LALT        &kp LCTRL       &lt FN_NAV RET  &lt NUMPAD SPC  &mo SYMBOL      &mt RCTRL K_APP &kp RALT        MTM_LC(DEL)  //├───────────────┴───────────────╯
 //                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
 )
 
 /* Gaming layer
     Most used keys, left hand only
     Leaves modifiers shift, aLt, ctrl but overrides LGUI to overlay GameX layer (don't want WinKey in games anyway)
-    Has some free slots: A, Z, left roller click. Z is explicitly in GameX just where it is on the Alpha layer though... Would have to test in a few games
+    Has some free slots: A, Z. Z is explicitly in GameX just where it is on the Alpha layer though... Would have to test in a few games
 */
 LAYER(Game, "Game",
     &scroll_up_down,
 // ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
     ___             &kp N1          &kp N2          &kp N3          &kp N4          &kp N5                                          ___             ___             ___             ___             ___             ___
     ___             ___             &kp Q           &kp W           &kp E           &kp R        /*├───────────────┬───────────────┤*/___           ___             ___             ___             ___             ___
-    ___             ___             &kp A           &kp S           &kp D           &kp F           ___             ___             ___             ___             ___             ___             ___             ___
+    ___             ___             &kp A           &kp S           &kp D           &kp F           &kp ENTER       ___             ___             ___             ___             ___             ___             ___
  /*╰───────────────┴───────────────┤*/___           &mo GAME_X      ___             ___             &kp SPACE       ___             ___             ___             ___             ___          //├───────────────┴───────────────╯
 //                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
 )
@@ -290,16 +294,37 @@ LAYER(GameX, "Game Extra",
     RET/FN_NAV + SYMBOL => momentary Media layer
 */
 LAYER(Fn_Nav, "Fn Nav",
-    &inc_dec_kp LC(MINUS) LC(FSLH) &scroll_up_down,
+    &scroll_up_down &scroll_left_right,
 // ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
     ___             &kp F1          &kp F2          &kp F3          &kp F4          &kp F5                                          &kp F6          &kp F7          &kp F8          &kp F9          &kp F10         &kp F11
     ___             &mkp MB4        &mkp LCLK       &mmv MOVE_UP    &mkp RCLK       &mkp MCLK    /*├───────────────┬───────────────┤*/&kp INSERT    &kp HOME        &kp UP          &kp END         &kp PAGE_UP     &kp F12
-    ___             &mkp MB5        &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_RIGHT &m_emoji        &reset_zoom     ___             &kp PRINTSCREEN &kp LEFT        &kp DOWN        &kp RIGHT       &kp PAGE_DOWN   ___
+    ___             &mkp MB5        &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_RIGHT &m_emoji        ___             ___             &kp PRINTSCREEN &kp LEFT        &kp DOWN        &kp RIGHT       &kp PAGE_DOWN   ___
  /*╰───────────────┴───────────────┤*/___           ___             ___             ___             ___             &key_repeat     &mo MEDIA       ___             ___             ___          //├───────────────┴───────────────╯
 //                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
 )
 
+/* Numpad layer
+    Rollers are zoom and magnifier with reset on click
+    Sends actual numpad keys, not plain number keys
+    KP_DOT is used for a comma in Finnish decimals; NUMLOCK_DOT is an actual dot or NUMLOCK on hold
+    mini ABCDEF pad for hex; moved FI_EQUAL to G; Calculator on B
+    Underscore on Z, RALT on A (RALT is overridden by KP_DOT here)
+    TODO make a way to enable AltGr + numpad keys? AltGr is overridden by KP_DOT here...
+*/
+#define NUMLOCK_DOT &mt KP_NUMLOCK DOT
+
+LAYER(Numpad, "Num Pad",
+    &inc_dec_kp LC(FI_PLUS) LC(FI_MINUS) &inc_dec_kp LG(FI_PLUS) LG(FI_MINUS),
+// ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
+    ___             &kp KP_N1       &kp KP_N2       &kp KP_N3       &kp KP_N4       &kp KP_N5                                       &kp KP_N6       &kp KP_N7       &kp KP_N8       &kp KP_N9       &kp KP_MINUS    ___
+    ___             &kp RALT        &kp D           &kp E           &kp F           &kp FI_EQUAL /*├───────────────┬───────────────┤*/&m_caret      &kp KP_N4       &kp KP_N5       &kp KP_N6       &kp KP_PLUS     &kp KP_DIVIDE
+    ___             &kp FI_UNDER    &kp A           &kp B           &kp C           &kp C_AL_CALC   &reset_zoom     &kp LG(ESC)     &kp PRCNT       &kp KP_N1       &kp KP_N2       &kp KP_N3       &kp KP_ENTER    &kp KP_MULTIPLY
+/* ╰───────────────┴───────────────┤*/___           ___             ___             ___             ___             ___             ___             &kp KP_N0       &kp KP_DOT      NUMLOCK_DOT  //├───────────────┴───────────────╯
+//                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
+)
+
 /* Symbols layer
+    Rollers are page up/down and word left/right
     Top row has numbers
     Middle row has Shift+numbers
     Bottom row has AltGr+numbers
@@ -308,7 +333,7 @@ LAYER(Fn_Nav, "Fn Nav",
     SYMBOL key will release the layer if it's locked, because it's momentary in the base layer and transparent here (unless NUMPAD is locked on top, then you have to tap it twice)
 */
 LAYER(Symbol, "Symbols",
-    &inc_dec_kp PG_UP PG_DN &inc_dec_kp LC(RIGHT) LC(LEFT),
+    &inc_dec_kp PG_UP PG_DN &inc_dec_kp LC(LEFT) LC(RIGHT),
 // ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
     &kp FI_SECTION  &kp N1          &kp N2          &kp N3          &kp N4          &kp N5                                          &kp N6          &kp N7          &kp N8          &kp N9          &kp N0          &kp FI_PLUS
     &kp FI_LT       &kp EXCL        &kp AT          &kp HASH        &kp FI_CURREN   &kp PRCNT    /*├───────────────┬───────────────┤*/&kp FI_AMPS   &kp FI_SLASH    &kp FI_LPAR     &kp FI_RPAR     &kp FI_EQUAL    &kp FI_SQT
@@ -317,35 +342,17 @@ LAYER(Symbol, "Symbols",
 //                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
 )
 
-/* Numpad layer
-    Sends actual numpad keys, not plain number keys
-    KP_DOT is used for a comma in Finnish decimals; NUMLOCK_DOT is an actual dot or NUMLOCK on hold
-    SYMBOL key releases locked layer
-    ABCDEF free for hex; moved FI_EQUAL to G; Calculator on V
-    TODO make a way to enable AltGr + numpad keys? AltGr is overridden by KP_DOT here...
-*/
-#define NUMLOCK_DOT &mt KP_NUMLOCK DOT
-
-LAYER(Numpad, "Num Pad",
-    &inc_dec_kp UP DOWN &inc_dec_kp LEFT RIGHT,
-// ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
-    ___             &kp KP_N1       &kp KP_N2       &kp KP_N3       &kp KP_N4       &kp KP_N5                                       &kp KP_N6       &kp KP_N7       &kp KP_N8       &kp KP_N9       &kp KP_MINUS    ___
-    ___             ___             ___             ___             ___             &kp FI_EQUAL /*├───────────────┬───────────────┤*/&m_caret      &kp KP_N4       &kp KP_N5       &kp KP_N6       &kp KP_PLUS     &kp KP_DIVIDE
-    ___             ___             ___             ___             &kp C_AL_CALC   ___             ___             ___             &kp PRCNT       &kp KP_N1       &kp KP_N2       &kp KP_N3       &kp KP_ENTER    &kp KP_MULTIPLY
-/* ╰───────────────┴───────────────┤*/___           ___             ___             ___             ___             ___             &tog NUMPAD     &kp KP_N0       &kp KP_DOT      NUMLOCK_DOT  //├───────────────┴───────────────╯
-//                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
-)
-
 /* Media layer
+    Rollers are volume and target screen brightness
     Volume controls, playback etc
     Only momentary from FN_NAV + SYMBOL for now
 */
 LAYER(Media, "Media",
-    &inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp LG(FI_PLUS) LG(FI_MINUS),
+    &inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp C_BRI_INC C_BRI_DEC,
 // ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
     ___             ___             ___             ___             ___             ___                                             ___             ___             ___             ___             ___             ___
-    ___             ___             ___             ___             ___             ___          /*├───────────────┬───────────────┤*/___           &kp C_RW        ___             &kp C_FF        ___             ___
-    ___             ___             ___             &kp C_VOL_DN    &kp C_MUTE      &kp C_VOL_UP    &kp C_MUTE      &kp LG(ESC)     ___             &kp C_PREV      &kp C_PP        &kp C_NEXT      ___             ___
+    ___             ___             ___             ___             ___             ___          /*├───────────────┬───────────────┤*/___           &kp C_RW        &kp C_STOP      &kp C_FF        ___             ___
+    ___             ___             ___             &kp C_VOL_DN    &kp C_MUTE      &kp C_VOL_UP    &kp C_MUTE      &kp C_BRI_MAX   &kp C_REC       &kp C_PREV      &kp C_PP        &kp C_NEXT      ___             ___
 /* ╰───────────────┴───────────────┤*/___           ___             ___             ___             ___             ___             ___             ___             ___             ___          //├───────────────┴───────────────╯
 //                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
 )
@@ -366,10 +373,12 @@ LAYER(Sudoku, "Sudoku",
 )
 
 /* Config layer
+    Rollers are BLE profile and backlight brightness
     Output toggle BLE/USB
     Bluetooth profile management: 10 profiles; tap to select, hold to disconnect; clear current on long hold on X
     Backlight control: set, toggle, increase, decrease
     Layer toggles: FN_NAV, NUMPAD, SYMBOL, S => SUDOKU, G => GAME
+    Default layer setting: N => Alpha, M => Alpha+Sym
     Leader keys: Left on LGUI, Right on DEL (use leader key on side you want to reset/bootloader etc)
     Extra triangle of keys from Finnish keyboard: acute (´`¸˛), A with ring (Å), umlaut(¨^~¯)
 */
@@ -378,12 +387,13 @@ LAYER(Sudoku, "Sudoku",
 #define RESET &h_reset 0 0
 #define BOOTLOAD &h_bootloader 0 0
 
+
 LAYER(Config, "Config",
     &bt_adjust &bri_adjust,
 // ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
     &out OUT_TOG    BTSD(0)         BTSD(1)         BTSD(2)         BTSD(3)         BTSD(4)                                         BTSD(5)         BTSD(6)         BTSD(7)         BTSD(8)         BTSD(9)         &kp FI_ACUTE
     ___             ___             &tog SUDOKU     ___             ___             &tog GAME    /*├───────────────┬───────────────┤*/___           ___             &kp PAUSE_BREAK &kp SCROLLLOCK  &kp FI_A_RING   &kp FI_UMLAUT
-    ___             &bl BL_SET 10   BTCLR           &bl BL_DEC      &bl BL_TOG      &bl BL_INC      ___             &bl BL_TOG      &tog ALPSYM     ___             ___             ___             ___             ___
+    ___             &bl BL_SET 10   BTCLR           &bl BL_DEC      &bl BL_TOG      &bl BL_INC      ___             &bl BL_TOG      &df ALPHA       &df ALPSYM      ___             ___             ___             ___
 /* ╰───────────────┴───────────────┤*/___           &leader         ___             ___             &tog FN_NAV     &tog NUMPAD     &tog SYMBOL     ___             ___             &leader      //├───────────────┴───────────────╯
 //                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
 )
