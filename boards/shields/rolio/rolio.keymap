@@ -39,8 +39,14 @@
 #define FI_GBP FI_POUND_SIGN
 
 // Elpekenin's zmk-userspace behaviors
-#include "elpekenin/behaviors.dtsi"
+// TODO: Removed for now, see below
+//#include "elpekenin/behaviors.dtsi"
 
+/* String input */
+/*
+#define ZMK_BEHAVIOR_CORE_string_input compatible = "zmk,behavior-string-input";       #binding-cells = <0>
+#define ZMK_STRING_INPUT(NAME, ACCEPT, CANCEL, ...) ZMK_BEHAVIOR(NAME, string_input, bindings = <ACCEPT>, <CANCEL>; __VA_ARGS__)
+*/
 
 /* Keymap layers */
 #define ALPHA     0
@@ -138,46 +144,56 @@ ZMK_SENSOR_ROTATE(bt_adjust, &bt BT_NXT, &bt BT_PRV)
 /* Hold taps */
 // TODO maybe a bit overcomplicated
 
+#define REQUIRE_IDLE_TIME 125
+#define QUICK_TAP_TIME 175
+#define HOLD_TIME_SHORT 250
+#define HOLD_TIME_MEDIUM 500
+#define HOLD_TIME_LONG 1000
+
 #define TAP_OR_HOLD(NAME, DESC, TAP, HOLD, DURATION) ZMK_HOLD_TAP(NAME, \
     display-name = DESC; \
     flavor = "tap-preferred"; \
     tapping-term-ms = <DURATION>; \
-    quick-tap-ms = <175>; \
-    require-prior-idle-ms = <125>; \
+    quick-tap-ms = <QUICK_TAP_TIME>; \
+    require-prior-idle-ms = <REQUIRE_IDLE_TIME>; \
     bindings = <&HOLD>, <&TAP>; \
 )
 
-#define TAP_OR_SHORT_HOLD(NAME, DESC, TAP, HOLD) TAP_OR_HOLD(NAME, DESC, TAP, HOLD, 200)
-#define TAP_OR_LONG_HOLD(NAME, DESC, TAP, HOLD) TAP_OR_HOLD(NAME, DESC, TAP, HOLD, 2000)
+// Short, medium and long hold macros, with tap and hold bindings as parameters
+#define TAP_OR_SHORT_HOLD(NAME, DESC, TAP, HOLD) TAP_OR_HOLD(NAME, DESC, TAP, HOLD, HOLD_TIME_SHORT)
+#define TAP_OR_MEDIUM_HOLD(NAME, DESC, TAP, HOLD) TAP_OR_HOLD(NAME, DESC, TAP, HOLD, HOLD_TIME_MEDIUM)
+#define TAP_OR_LONG_HOLD(NAME, DESC, TAP, HOLD) TAP_OR_HOLD(NAME, DESC, TAP, HOLD, HOLD_TIME_LONG)
 
+// Short, medium and long hold macros, tap binding is keypress and hold binding is parameter
 #define TAP_KP_OR_SHORT_HOLD(NAME, DESC, HOLD) TAP_OR_SHORT_HOLD(NAME, DESC, kp, HOLD)
+#define TAP_KP_OR_MEDIUM_HOLD(NAME, DESC, HOLD) TAP_OR_MEDIUM_HOLD(NAME, DESC, kp, HOLD)
 #define TAP_KP_OR_LONG_HOLD(NAME, DESC, HOLD) TAP_OR_LONG_HOLD(NAME, DESC, kp, HOLD)
 
+// Short, medium and long hold macros, both tap and hold bindings are keypresses
 #define TAP_KP_OR_SHORT_HOLD_KP(NAME, DESC) TAP_KP_OR_SHORT_HOLD(NAME, DESC, kp)
+#define TAP_KP_OR_MEDIUM_HOLD_KP(NAME, DESC) TAP_KP_OR_MEDIUM_HOLD(NAME, DESC, kp)
 #define TAP_KP_OR_LONG_HOLD_KP(NAME, DESC) TAP_KP_OR_LONG_HOLD(NAME, DESC, kp)
 
+// Short, medium and long hold macros, tap binding is none and hold binding is parameter
 #define SHORT_HOLD(NAME, DESC, HOLD) TAP_OR_SHORT_HOLD(NAME, DESC, none, HOLD)
+#define MEDIUM_HOLD(NAME, DESC, HOLD) TAP_OR_MEDIUM_HOLD(NAME, DESC, none, HOLD)
 #define LONG_HOLD(NAME, DESC, HOLD) TAP_OR_LONG_HOLD(NAME, DESC, none, HOLD)
 
 TAP_KP_OR_SHORT_HOLD_KP(mt_short, "Short mod tap")
+TAP_KP_OR_MEDIUM_HOLD_KP(mt_medium, "Medium mod tap")
 
-TAP_OR_SHORT_HOLD(bt_sel_disc, "Bluetooth Profile Tap: Select; Hold: Disconnect", m_btsel, m_btdis)
+// Disconnect is temporary, so it can be a medium hold
+TAP_OR_MEDIUM_HOLD(bt_sel_disc, "Bluetooth Profile Tap: Select; Hold: Disconnect", m_btsel, m_btdis)
 
+// Clear is a permanent action, so make it a long hold
 LONG_HOLD(h_btclr, "Bluetooth profile Hold: Clear", m_btclr)
 
+// Longhand as it is hold-preferred
 ZMK_HOLD_TAP(shift_capsword,
     display-name = "Hold Shift / Tap Capsword";
     flavor = "hold-preferred";
-    tapping-term-ms = <200>;
+    tapping-term-ms = <HOLD_TIME_SHORT>;
     bindings = <&kp>, <&caps_word>;
-)
-
-ZMK_HOLD_TAP(mt_medium,
-    display-name = "Slow mod tap";
-    flavor = "tap-preferred";
-    quick-tap-ms = <175>;
-    tapping-term-ms = <500>;
-    bindings = <&kp>, <&kp>;
 )
 
 /* Macros */
@@ -203,7 +219,7 @@ ZMK_MACRO_ONE_PARAM(m_bootloader, display-name = "Bootloader"; bindings = <&boot
 #define LAYER(NAME, DESC, SENSORS, LAYOUT) \
     / { \
         keymap { \
-            compatible = "zmk,keymap"; \
+             compatible = "zmk,keymap"; \
             layer_ ## NAME { \
                 display-name = DESC; \
                 bindings = <LAYOUT>; \
@@ -381,19 +397,26 @@ LAYER(Sudoku, "Sudoku",
     Default layer setting: N => Alpha, M => Alpha+Sym
     Leader keys: Left on LGUI, Right on DEL (use leader key on side you want to reset/bootloader etc)
     Extra triangle of keys from Finnish keyboard: acute (´`¸˛), A with ring (Å), umlaut(¨^~¯)
+    TODO: &df works badly at the moment, it causes a &to whenever the BLE profile is changed. So Config key doesn't stay held down, and profile selection only goes one at a time. For now, using &to for ALPHA and ALPSYM, and removing the module.
 */
 #define BTSD(P) &bt_sel_disc P P
 #define BTCLR &h_btclr 0 0
 #define RESET &h_reset 0 0
 #define BOOTLOAD &h_bootloader 0 0
 
+/*
+ZMK_STRING_INPUT(si, &none, &none,
+    accept-list = <RET>;
+    cancel-list = <ESC>;
+)
+*/
 
 LAYER(Config, "Config",
     &bt_adjust &bri_adjust,
 // ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
     &out OUT_TOG    BTSD(0)         BTSD(1)         BTSD(2)         BTSD(3)         BTSD(4)                                         BTSD(5)         BTSD(6)         BTSD(7)         BTSD(8)         BTSD(9)         &kp FI_ACUTE
-    ___             ___             &tog SUDOKU     ___             ___             &tog GAME    /*├───────────────┬───────────────┤*/___           ___             &kp PAUSE_BREAK &kp SCROLLLOCK  &kp FI_A_RING   &kp FI_UMLAUT
-    ___             &bl BL_SET 10   BTCLR           &bl BL_DEC      &bl BL_TOG      &bl BL_INC      ___             &bl BL_TOG      &df ALPHA       &df ALPSYM      ___             ___             ___             ___
+    ___             ___/*&si*/      &tog SUDOKU     ___             ___             &tog GAME    /*├───────────────┬───────────────┤*/___           ___             &kp PAUSE_BREAK &kp SCROLLLOCK  &kp FI_A_RING   &kp FI_UMLAUT
+    ___             &bl BL_SET 10   BTCLR           &bl BL_DEC      &bl BL_TOG      &bl BL_INC      ___             &bl BL_TOG      &to/*df*/ ALPHA &to/*df*/ ALPSYM ___            ___             ___             ___
 /* ╰───────────────┴───────────────┤*/___           &leader         ___             ___             &tog FN_NAV     &tog NUMPAD     &tog SYMBOL     ___             ___             &leader      //├───────────────┴───────────────╯
 //                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
 )
@@ -477,10 +500,8 @@ ZMK_COMBO(pgdn,     &kp PG_DN,          RB3 RH4,    ALPHA  ALPSYM       SYMBOL N
     };
 
 // BLE and USB
-#ifdef CONFIG_WIRELESS
 ZMK_LEADER_SEQUENCE(usb,        &out OUT_USB,   U S B)
 ZMK_LEADER_SEQUENCE(ble,        &out OUT_BLE,   B L E)
-#endif // CONFIG_WIRELESS
 
 // Reset and bootloader. Use the leader key on the side you want to reset/bootloader
 // These are quite good as I never want to do these by accident... They used to be long holds but this frees up their config layer keys too.
@@ -496,10 +517,20 @@ ZMK_LEADER_SEQUENCE(boot,       &bootloader,    B O O T)
 
 /* Temp just splatting this stuff here; there was a reset one too but I can't remember the line for that right now
 cd app
-west build -p -d build/left -b nice_nano_v2 -S studio-rpc-usb-uart -- -DSHIELD="rolio_left nice_view" -DZMK_CONFIG="/workspaces/zmk-config/config" -DEXTRA_CONF_FILE=/workspaces/zmk-config/config/rolio-nice_view.conf -DZMK_EXTRA_MODULES="/workspaces/zmk-config/;/workspaces/zmk-modules/zmk-helpers/;/workspaces/zmk-modules/zmk-leader-key/;/workspaces/zmk-modules/zmk-locales/"
+west build -p -d build/left -b nice_nano_v2 -S studio-rpc-usb-uart -- -DSHIELD="rolio_left nice_view" -DZMK_CONFIG="/workspaces/zmk-config/config" -DEXTRA_CONF_FILE=/workspaces/zmk-config/config/rolio-nice_view.conf -DZMK_EXTRA_MODULES="/workspaces/zmk-config/;/workspaces/zmk-modules/zmk-helpers/;/workspaces/zmk-modules/zmk-leader-key/;/workspaces/zmk-modules/zmk-locales/;/workspaces/zmk-modules/zmk-behavior-string-input"
 west build -d build/left
-west build -p -d build/right -b nice_nano_v2 -S studio-rpc-usb-uart -- -DSHIELD="rolio_right nice_view" -DZMK_CONFIG="/workspaces/zmk-config/config" -DEXTRA_CONF_FILE=/workspaces/zmk-config/config/rolio-nice_view.conf -DZMK_EXTRA_MODULES="/workspaces/zmk-config/;/workspaces/zmk-modules/zmk-helpers/;/workspaces/zmk-modules/zmk-leader-key/;/workspaces/zmk-modules/zmk-locales/"
+west build -p -d build/right -b nice_nano_v2 -S studio-rpc-usb-uart -- -DSHIELD="rolio_right nice_view" -DZMK_CONFIG="/workspaces/zmk-config/config" -DEXTRA_CONF_FILE=/workspaces/zmk-config/config/rolio-nice_view.conf -DZMK_EXTRA_MODULES="/workspaces/zmk-config/;/workspaces/zmk-modules/zmk-helpers/;/workspaces/zmk-modules/zmk-leader-key/;/workspaces/zmk-modules/zmk-locales/;/workspaces/zmk-modules/zmk-behavior-string-input"
 west build -d build/right
+
+west build -p -d build/left -b nice_nano_v2 -S studio-rpc-usb-uart -S zmk-usb-logging -- -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DSHIELD="rolio_left nice_view" -DZMK_CONFIG=/workspaces/zmk-config/config -DEXTRA_CONF_FILE=/workspaces/zmk-config/config/rolio-nice_view.conf -DZMK_EXTRA_MODULES="/workspaces/zmk-config/;/workspaces/zmk-modules/zmk-helpers/;/workspaces/zmk-modules/zmk-leader-key/;/workspaces/zmk-modules/zmk-locales/;/workspaces/zmk-modules/zmk-behavior-string-input"
+
+/workspaces/zmk-config/;
+/workspaces/zmk-modules/zmk-helpers/;
+/workspaces/zmk-modules/zmk-leader-key/;
+/workspaces/zmk-modules/zmk-locales/;
+/workspaces/zmk-modules/zmk-behavior-string-input
+
+/workspaces/zmk-modules/zmk-userspace/;
 */
 
 // AAAARGH tried to do this with hold tap + trans, it doesn't work, it doesn't continue through the layers. ZMK has patches but not merged yet.
