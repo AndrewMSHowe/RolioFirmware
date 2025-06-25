@@ -1,0 +1,55 @@
+/* Combos */
+
+/* Key labels */
+#include "zmk-helpers/key-labels/rolio46.h"
+
+// Not sure how I feel about these... They work, but sometimes you get spurious results if you don't mash the keys just right.
+// We have rollers for this stuff :) But was a fun experiment...
+
+/*                KEY POSITIONS
+ ╭─────────────────────────╮       ╭─────────────────────────╮
+ │ LT5 LT4 LT3 LT2 LT1 LT0 │       │ RT0 RT1 RT2 RT3 RT4 RT5 │
+ │ LM5 LM4 LM3 LM2 LM1 LM0 ╰──╮ ╭──╯ RM0 RM1 RM2 RM3 RM4 RM5 │
+ │ LB5 LB4 LB3 LB2 LB1 LB0 LR0╰┬╯RR0 RB0 RB1 RB2 RB3 RB4 RB5 │
+ ╰───────╮ LH4 LH3 LH2 LH1 LH0 │ RH0 RH1 RH2 RH3 RH4 ╭───────╯
+         ╰─────────────────────┴─────────────────────╯ */
+
+/*  ESC     Q       W       E       R       T                       Y       U       I       O       P       BSP
+ *                         MB3                                                                                 
+ *  TAB     A  MB4  S  MB1  D  MB2  F  MB5  G                       H       J  HOM  K  END  L       Ö       Ä  
+ *                         MUP                                                      UP     PGUP                
+ *  LSH     Z       X  MLT  C  MRT  V       B                       N       M   LT  ,  RT   .       -       RSH
+ *                         MDN                                                      DN     PGDN                
+ *                  CFG     GUI     ALT     CTL     ENT     SPC     SYM     CTL     RA      DEL                
+ */
+
+#define COMBO_TERM_FAST 18
+#define COMBO_TERM_SLOW 30
+
+#define COMBO_IDLE_FAST 150
+#define COMBO_IDLE_SLOW 50
+
+// TODO: investigate the slow/fast stuffs
+// TODO: maybe add other layers to the combos, but it gets a bit messy (I left FN_NAV out of the mouse & nav ones as there's no point if you're in the nav layer already)
+// TODO: if mouse press / release are possible, maybe swipe gestures for mobile? Maybe &mkp would work with macro_press?
+
+// Mouse move/click
+ZMK_COMBO(mup,      &mmv MOVE_UP,       LM2 LB2,    ALPHA  ALPSYM        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(mdown,    &mmv MOVE_DOWN,     LB2 LH3,    ALPHA  ALPSYM        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(mleft,    &mmv MOVE_LEFT,     LB2 LB3,    ALPHA  ALPSYM        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(mright,   &mmv MOVE_RIGHT,    LB1 LB2,    ALPHA  ALPSYM        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(mb1,      &mkp LCLK,          LM2 LM3,    ALPHA  ALPSYM        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(mb2,      &mkp RCLK,          LM1 LM2,    ALPHA  ALPSYM        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(mb3,      &mkp MCLK,          LT2 LM2,    ALPHA  ALPSYM        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(mb4,      &mkp MB4,           LM3 LM4,    ALPHA  ALPSYM        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(mb5,      &mkp MB5,           LM0 LM1,    ALPHA  ALPSYM        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+
+// Navigation
+ZMK_COMBO(up,       &kp UP,             RM2 RB2,    ALPHA  ALPSYM        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(down,     &kp DOWN,           RB2 RH3,    ALPHA  ALPSYM        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(left,     &kp LEFT,           RB1 RB2,    ALPHA  ALPSYM        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(right,    &kp RIGHT,          RB2 RB3,    ALPHA  ALPSYM        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(home,     &kp HOME,           RM1 RM2,    ALPHA  ALPSYM        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(end,      &kp END,            RM2 RM3,    ALPHA  ALPSYM        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(pgup,     &kp PG_UP,          RM3 RB3,    ALPHA  ALPSYM        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(pgdn,     &kp PG_DN,          RB3 RH4,    ALPHA  ALPSYM        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)

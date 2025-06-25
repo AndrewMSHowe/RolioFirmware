@@ -1,0 +1,23 @@
+/* Hold taps */
+
+TAP_KP_OR_SHORT_HOLD_KP(mt_short, "Short mod tap")
+TAP_KP_OR_MEDIUM_HOLD_KP(mt_medium, "Medium mod tap")
+
+// Disconnect is temporary, so it can be a medium hold
+TAP_OR_MEDIUM_HOLD(bt_sel_disc, "Bluetooth Profile Tap: Select; Hold: Disconnect", m_btsel, m_btdis)
+
+// Clear is a permanent action, so make it a long hold
+LONG_HOLD(h_btclr, "Bluetooth profile Hold: Clear", m_btclr)
+
+// Longhand as these are hold-preferred
+ZMK_HOLD_TAP(sticky_shift,
+    display-name = "Hold Shift / Tap Sticky Shift";
+    tapping-term-ms = <HOLD_TIME_SHORT>;
+    bindings = <&kp>, <&sk>;
+)
+
+ZMK_HOLD_TAP(capsword_shift,
+    display-name = "Hold Shift / Tap Capsword";
+    tapping-term-ms = <HOLD_TIME_SHORT>;
+    bindings = <&kp>, <&caps_word>;
+)

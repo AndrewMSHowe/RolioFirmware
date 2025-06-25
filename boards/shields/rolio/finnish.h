@@ -1,0 +1,9 @@
+/* Finnish key definitions and my additions */
+
+#include <locale/keys_fi.h>
+
+#define FI_PERMILLE (RA(ZMK_HID_USAGE(HID_USAGE_KEY, HID_USAGE_KEY_KEYBOARD_5_AND_PERCENT)))
+#define FI_SL9QM (RA(ZMK_HID_USAGE(HID_USAGE_KEY, HID_USAGE_KEY_KEYBOARD_6_AND_CARET)))
+#undef FI_EURO
+#define FI_EURO (RA(ZMK_HID_USAGE(HID_USAGE_KEY, HID_USAGE_KEY_KEYBOARD_E)))
+#define FI_GBP FI_POUND_SIGN

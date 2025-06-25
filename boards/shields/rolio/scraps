@@ -1,0 +1,59 @@
+// System power and sleep/wake (don't seem to work)
+//ZMK_LEADER_SEQUENCE(power,      &kp SYS_PWR,    P O W E R)
+//ZMK_LEADER_SEQUENCE(sleep,      &kp SYS_SLEEP,  S L E E P)
+//ZMK_LEADER_SEQUENCE(wake,       &kp SYS_WAKE,   W A K E)
+
+// TODO: add some more cool leader key sequences
+
+/* Temp just splatting this stuff here; there was a reset one too but I can't remember the line for that right now
+cd app
+west build -p -d build/left -b nice_nano_v2 -S studio-rpc-usb-uart -- -DSHIELD="rolio_left nice_view" -DZMK_CONFIG="/workspaces/zmk-config/config" -DEXTRA_CONF_FILE=/workspaces/zmk-config/config/rolio-nice_view.conf -DZMK_EXTRA_MODULES="/workspaces/zmk-config/;/workspaces/zmk-modules/zmk-helpers/;/workspaces/zmk-modules/zmk-leader-key/;/workspaces/zmk-modules/zmk-locales/;/workspaces/zmk-modules/zmk-behavior-string-input"
+west build -d build/left
+west build -p -d build/right -b nice_nano_v2 -S studio-rpc-usb-uart -- -DSHIELD="rolio_right nice_view" -DZMK_CONFIG="/workspaces/zmk-config/config" -DEXTRA_CONF_FILE=/workspaces/zmk-config/config/rolio-nice_view.conf -DZMK_EXTRA_MODULES="/workspaces/zmk-config/;/workspaces/zmk-modules/zmk-helpers/;/workspaces/zmk-modules/zmk-leader-key/;/workspaces/zmk-modules/zmk-locales/;/workspaces/zmk-modules/zmk-behavior-string-input"
+west build -d build/right
+
+west build -p -d build/left -b nice_nano_v2 -S studio-rpc-usb-uart -S zmk-usb-logging -- -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DSHIELD="rolio_left nice_view" -DZMK_CONFIG=/workspaces/zmk-config/config -DEXTRA_CONF_FILE=/workspaces/zmk-config/config/rolio-nice_view.conf -DZMK_EXTRA_MODULES="/workspaces/zmk-config/;/workspaces/zmk-modules/zmk-helpers/;/workspaces/zmk-modules/zmk-leader-key/;/workspaces/zmk-modules/zmk-locales/;/workspaces/zmk-modules/zmk-behavior-string-input"
+
+/workspaces/zmk-config/;
+/workspaces/zmk-modules/zmk-helpers/;
+/workspaces/zmk-modules/zmk-leader-key/;
+/workspaces/zmk-modules/zmk-locales/;
+/workspaces/zmk-modules/zmk-behavior-string-input
+
+/workspaces/zmk-modules/zmk-userspace/;
+*/
+
+// AAAARGH tried to do this with hold tap + trans, it doesn't work, it doesn't continue through the layers. ZMK has patches but not merged yet.
+//TAP_OR_SHORT_HOLD(alpha_sym_hold, "Tap Alpha; Hold Symbol", trans, kp)
+//#define AS(SYM) &alpha_sym_hold SYM SYM
+// ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
+//    AS(FI_SECTION)  AS(N1)          AS(N2)          AS(N3)          AS(N4)          AS(N5)                                          AS(N6)          AS(N7)          AS(N8)          AS(N9)          AS(N0)          AS(FI_PLUS)
+//    AS(FI_LT)       AS(EXCL)        AS(AT)          AS(HASH)        AS(FI_CURREN)   AS(PRCNT)    /*├───────────────┬───────────────┤*/AS(FI_AMPS)   AS(FI_SLASH)    AS(FI_LPAR)     AS(FI_RPAR)     AS(FI_EQUAL)    AS(FI_SQT)
+//    ___             AS(FI_PIPE)     AS(FI_AT)       AS(FI_GBP)      AS(FI_DOLLAR)   AS(FI_PERMILLE) ___             ___             AS(FI_SL9QM)    AS(FI_LBRC)     AS(FI_LBKT)     AS(FI_RBKT)     AS(FI_RBRC)     ___
+///* ╰───────────────┴───────────────┤*/___           ___             ___             ___             ___             ___             ___             ___             ___             ___          //├───────────────┴───────────────╯
+//                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
+
+// Mouse swiping
+// Doesn't really work well
+/*
+#define SWIPE_DISTANCE 20000
+#define SWIPE_TIME 100
+#define SWIPE(DESC, BUTTON, LRUD, DIR, XY) ZMK_MACRO(m_swipe ## BUTTON ## LRUD, \
+    display-name = DESC; \
+    bindings = <&macro_press &mkp BUTTON ## CLK>, \
+               <&macro_tap_time SWIPE_TIME>, \
+               <&macro_tap &mmv MOVE_ ## XY(DIR * SWIPE_DISTANCE)>, \
+               <&macro_release &mkp BUTTON ## CLK>, \
+               <&macro_tap &mmv MOVE_ ## XY(DIR * SWIPE_DISTANCE * -1)>; \
+)
+SWIPE("Swipe LCLK Left",  L, L, -1, X)
+SWIPE("Swipe LCLK Right", L, R,  1, X)
+SWIPE("Swipe LCLK Up",    L, U, -1, Y)
+SWIPE("Swipe LCLK Down",  L, D,  1, Y)
+
+// Mouse swipe
+ZMK_COMBO(mswipeLU, &m_swipeLU,         LM2 LB2,                  FN_NAV              , COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(mswipeLD, &m_swipeLD,         LB2 LH3,                  FN_NAV              , COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(mswipeLL, &m_swipeLL,         LB2 LB3,                  FN_NAV              , COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(mswipeLR, &m_swipeLR,         LB1 LB2,                  FN_NAV              , COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+*/

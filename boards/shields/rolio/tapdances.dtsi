@@ -1,0 +1,12 @@
+/* Tap dances */
+
+/*
+ * Config key turns on Config layer.
+ * Config layer has toggles for other layers in the same place as the momentary keys for those layers.
+ * Config layer lock itself is double-tap of the config key.
+ */
+ZMK_TAP_DANCE(td_config,
+    display-name = "Config Hold/Lock";
+    tapping-term-ms = <300>;
+    bindings = <&mo CONFIG>, <&tog CONFIG>;
+)

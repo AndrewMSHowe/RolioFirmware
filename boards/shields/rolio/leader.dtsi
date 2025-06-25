@@ -1,0 +1,26 @@
+/* Leader sequences */
+
+#undef ZMK_LEADER_SEQUENCE
+#define ZMK_LEADER_SEQUENCE(NAME, BINDINGS, SEQUENCE) \
+    / { \
+        behaviors { \
+            leader: leader { \
+                compatible = "zmk,behavior-leader-key"; \
+                #binding-cells = <0>; \
+                ignore-keys = <LSHFT RSHFT>; \
+                leader_sequence_ ## NAME { \
+                    bindings = <BINDINGS>; \
+                    sequence = <SEQUENCE>; \
+                }; \
+            }; \
+        }; \
+    };
+
+// BLE and USB
+ZMK_LEADER_SEQUENCE(usb,        &out OUT_USB,   U S B)
+ZMK_LEADER_SEQUENCE(ble,        &out OUT_BLE,   B L E)
+
+// Reset and bootloader. Use the leader key on the side you want to reset/bootloader
+// These are quite good as I never want to do these by accident... They used to be long holds but this frees up their config layer keys too.
+ZMK_LEADER_SEQUENCE(reset,      &sys_reset,     R E S E T)
+ZMK_LEADER_SEQUENCE(boot,       &bootloader,    B O O T)

@@ -1,0 +1,14 @@
+/* Sensor rotates */
+
+#define ZMK_BEHAVIOR_CORE_sensor_rotate compatible = "zmk,behavior-sensor-rotate"; #binding-cells = <0>; #sensor-binding-cells = <0>
+#define ZMK_SENSOR_ROTATE(NAME, UP, DOWN, ...) ZMK_BEHAVIOR(NAME, sensor_rotate, bindings = <UP>, <DOWN>; __VA_ARGS__)
+
+// Backlight Brightness
+ZMK_SENSOR_ROTATE(bri_adjust, &bl BL_INC, &bl BL_DEC)
+
+// Encoder to Mouse Scroll
+ZMK_SENSOR_ROTATE(scroll_up_down, &msc SCRL_UP, &msc SCRL_DOWN, tap-ms = <20>;)
+ZMK_SENSOR_ROTATE(scroll_left_right, &msc SCRL_LEFT, &msc SCRL_RIGHT, tap-ms = <20>;)
+
+// Bluetooth profile selection
+ZMK_SENSOR_ROTATE(bt_adjust, &bt BT_NXT, &bt BT_PRV)
