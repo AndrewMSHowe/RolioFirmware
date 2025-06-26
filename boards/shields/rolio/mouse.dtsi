@@ -1,0 +1,16 @@
+/* Mouse stuffs */
+
+#define MOUSE_NUDGE_TAP_TIME 100
+#define MOUSE_NUDGE_MULTIPLIER 10
+
+#define MOUSE_NUDGE(NAME, DESC, TAP_TIME) ZMK_MACRO_ONE_PARAM(NAME, display-name = DESC; bindings = \
+    <&macro_tap_time TAP_TIME>, \
+    <&macro_param_1to1>, \
+    <&macro_tap &mmv MACRO_PLACEHOLDER>; \
+)
+
+MOUSE_NUDGE(m_mouse_nudge, "Mouse Nudge", MOUSE_NUDGE_TAP_TIME)
+TAP_OR_SHORT_HOLD(ht_mouse_nudge_move, "Mouse Nudge on tap, Move on hold", m_mouse_nudge, mmv)
+
+#define MOVE_MULTIPLY(MOVE) ((((MOVE & 0xFFFF) * MOUSE_NUDGE_MULTIPLIER) & 0xFFFF) | (((MOVE & 0xFFFF0000) * MOUSE_NUDGE_MULTIPLIER) & 0xFFFF0000))
+#define MOUSE_NUDGE_OR_MOVE(DIR) &ht_mouse_nudge_move DIR MOVE_MULTIPLY(DIR)

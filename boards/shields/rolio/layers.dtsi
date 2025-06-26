@@ -82,12 +82,14 @@ LAYER(GameX, "Game Extra",
     RET/FN_NAV + SPC/NUMPAD => repeat last key
     RET/FN_NAV + SYMBOL => momentary Media layer
 */
+#define MNM(DIR) MOUSE_NUDGE_OR_MOVE(DIR)
+
 LAYER(Fn_Nav, "Fn Nav",
     &scroll_up_down &scroll_left_right,
 // ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
     ___             &kp F1          &kp F2          &kp F3          &kp F4          &kp F5                                          &kp F6          &kp F7          &kp F8          &kp F9          &kp F10         &kp F11
-    ___             &mkp MB5        &mkp LCLK       &mmv MOVE_UP    &mkp RCLK       &mkp MCLK    /*├───────────────┬───────────────┤*/&kp INSERT    &kp HOME        &kp UP          &kp END         &kp PAGE_UP     &kp F12
-    ___             &m_emoji        &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_RIGHT &mkp MB4        ___             ___             &kp PRINTSCREEN &kp LEFT        &kp DOWN        &kp RIGHT       &kp PAGE_DOWN   ___
+    ___             &mkp MB5        &mkp LCLK       MNM(MOVE_UP)    &mkp RCLK       &mkp MCLK    /*├───────────────┬───────────────┤*/&kp INSERT    &kp HOME        &kp UP          &kp END         &kp PAGE_UP     &kp F12
+    ___             &m_emoji        MNM(MOVE_LEFT)  MNM(MOVE_DOWN)  MNM(MOVE_RIGHT) &mkp MB4        ___             ___             &kp PRINTSCREEN &kp LEFT        &kp DOWN        &kp RIGHT       &kp PAGE_DOWN   ___
  /*╰───────────────┴───────────────┤*/___           ___             ___             ___             ___             &key_repeat     &mo MEDIA       ___             ___             ___          //├───────────────┴───────────────╯
 //                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
 )
@@ -173,21 +175,28 @@ LAYER(Sudoku, "Sudoku",
     TODO: &df works badly at the moment, it causes a &to whenever the BLE profile is changed. So Config key doesn't stay held down, and profile selection only goes one at a time. For now, using &to for ALPHA and ALPSYM, and removing the module.
 */
 #define BTSD(P) &bt_sel_disc P P
-#define BTCLR &h_btclr 0 0
+#define OUT_BTCLR &h_out_btclr 0 OUT_TOG
 #define RESET &h_reset 0 0
 #define BOOTLOAD &h_bootloader 0 0
+#define BLSET &mt_blset 100 25
 
-/*ZMK_STRING_INPUT(si, &none, &none,
-    accept-list = <RET>;
-    cancel-list = <ESC>;
-)*/
+#ifdef STRING_INPUT_MODULE
+ZMK_STRING_INPUT(si, &none, &none,
+    accept-keys = <RET>;
+    cancel-keys = <ESC>;
+    ignore-keys = <LSHIFT RSHIFT>;
+)
+#define SI &si
+#else
+#define SI &none
+#endif
 
 LAYER(Config, "Config",
     &bt_adjust &bri_adjust,
 // ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
-    &out OUT_TOG    BTSD(0)         BTSD(1)         BTSD(2)         BTSD(3)         BTSD(4)                                         BTSD(5)         BTSD(6)         BTSD(7)         BTSD(8)         BTSD(9)         &kp FI_ACUTE
-    ___             ___/*&si*/      &tog SUDOKU     ___             ___             &tog GAME    /*├───────────────┬───────────────┤*/___           ___             &kp PAUSE_BREAK &kp SCROLLLOCK  &kp FI_A_RING   &kp FI_UMLAUT
-    ___             &bl BL_SET 10   BTCLR           &bl BL_DEC      &bl BL_TOG      &bl BL_INC      ___             &bl BL_TOG      &to/*df*/ ALPHA &to/*df*/ ALPSYM ___            ___             ___             ___
+    OUT_BTCLR       BTSD(0)         BTSD(1)         BTSD(2)         BTSD(3)         BTSD(4)                                         BTSD(5)         BTSD(6)         BTSD(7)         BTSD(8)         BTSD(9)         &kp FI_ACUTE
+    ___             SI              &tog SUDOKU     ___             ___             &tog GAME    /*├───────────────┬───────────────┤*/___           ___             &kp PAUSE_BREAK &kp SCROLLLOCK  &kp FI_A_RING   &kp FI_UMLAUT
+    ___             ___             BLSET           &bl BL_DEC      &bl BL_TOG      &bl BL_INC      ___             &bl BL_TOG      &to/*df*/ ALPHA &to/*df*/ ALPSYM ___            ___             ___             ___
 /* ╰───────────────┴───────────────┤*/___           &leader         ___             ___             &tog FN_NAV     &tog NUMPAD     &tog SYMBOL     ___             ___             &leader      //├───────────────┴───────────────╯
 //                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
 )

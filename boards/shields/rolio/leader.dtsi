@@ -24,3 +24,5 @@ ZMK_LEADER_SEQUENCE(ble,        &out OUT_BLE,   B L E)
 // These are quite good as I never want to do these by accident... They used to be long holds but this frees up their config layer keys too.
 ZMK_LEADER_SEQUENCE(reset,      &sys_reset,     R E S E T)
 ZMK_LEADER_SEQUENCE(boot,       &bootloader,    B O O T)
+
+ZMK_LEADER_SEQUENCE(studio,     &studio_unlock, S T U D I O)

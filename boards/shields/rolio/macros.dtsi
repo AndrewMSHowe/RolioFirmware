@@ -9,9 +9,10 @@ ZMK_MACRO(m_emoji, display-name = "Windows Emoji"; bindings = <&kp LG(DOT)>;)
 // Reset zoom
 ZMK_MACRO(reset_zoom, display-name = "Reset Zoom"; bindings = <&kp LC(KP_N0)>;)
 
-// Helpers for behaviors above
+// Helpers for various behaviors
 ZMK_MACRO_ONE_PARAM(m_btsel, display-name = "Bluetooth Profile Select"; bindings = <&macro_param_1to2>, <&bt BT_SEL MACRO_PLACEHOLDER>;)
 ZMK_MACRO_ONE_PARAM(m_btdis, display-name = "Bluetooth Profile Disconnect"; bindings = <&macro_param_1to2>, <&bt BT_DISC MACRO_PLACEHOLDER>;)
 ZMK_MACRO_ONE_PARAM(m_btclr, display-name = "Bluetooth Profile Clear"; bindings = <&bt BT_CLR>;)
 ZMK_MACRO_ONE_PARAM(m_reset, display-name = "Reset"; bindings = <&sys_reset>;)
 ZMK_MACRO_ONE_PARAM(m_bootloader, display-name = "Bootloader"; bindings = <&bootloader>;)
+ZMK_MACRO_ONE_PARAM(m_blset, display-name = "Backlight Set"; bindings = <&macro_param_1to2>, <&bl BL_SET MACRO_PLACEHOLDER>;)
