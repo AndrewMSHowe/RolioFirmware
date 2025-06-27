@@ -22,5 +22,5 @@ ZMK_HOLD_TAP(capsword_shift,
     bindings = <&kp>, <&caps_word>;
 )
 
-// Backlight set tap or hold
-TAP_OR_MEDIUM_HOLD(mt_blset, "Backlight set tap or hold", m_blset, m_blset)
+// Backlight
+TAP_OR_MEDIUM_HOLD(mt_bl_cmd_set, "Backlight tap command or hold set", m_blcmd, m_blset)
