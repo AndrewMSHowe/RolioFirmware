@@ -31,6 +31,7 @@ LAYER(Alpha, "Alpha",
     Experimental: Now I have a repeat key, how about a toggleable layer that puts symbol layer on hold, passing through to the alpha layer on tap?
     Will lose BSPC word...
     Hold-tap with tap trans didn't work, so this has to be kept updated with the Alpha layer...
+    No &trans so it can be a default layer if that's fixed
 */
 
 #define SA &mt_short // SA because sym goes first
@@ -40,7 +41,7 @@ LAYER(AlphaSymHold, "Alpha+Sym",
 // ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
     SA FI_SECTION ESC SA N1 Q       SA N2 W         SA N3 E         SA N4 R         SA N5 T                                         SA N6 Y         SA N7 U         SA N8 I         SA N9 O         SA N0 P         SA FI_PLUS BSPC
     SA FI_LT TAB    SA EXCL A       SA AT S         SA HASH D       SA FI_CURREN F  SA PRCNT G   /*├───────────────┬───────────────┤*/SA FI_AMPS H  SA FI_SLASH J   SA FI_LPAR K    SA FI_RPAR L    SA FI_EQUAL FI_O_UMLAUT SA FI_SQT FI_A_UMLAUT
-    &kp LSHIFT      SA FI_PIPE Z    SA FI_AT X      SA FI_GBP C     SA FI_DOLLAR V  SA FI_PERMILLE B ___            ___             SA FI_SL9QM N   SA FI_LBRC M    SA FI_LBKT COMMA SA FI_RBKT DOT SA FI_RBRC FI_MINUS ___
+    LS_STICKY       SA FI_PIPE Z    SA FI_AT X      SA FI_GBP C     SA FI_DOLLAR V  SA FI_PERMILLE B &kp F13        &kp F14         SA FI_SL9QM N   SA FI_LBRC M    SA FI_LBKT COMMA SA FI_RBKT DOT SA FI_RBRC FI_MINUS RS_CAPSW
 /* ╰───────────────┴───────────────┤*/&td_config    &kp LGUI        &kp LALT        &kp LCTRL       &lt FN_NAV RET  &lt NUMPAD SPC  &mo SYMBOL      &mt RCTRL K_APP &kp RALT        MTM_LC(DEL)  //├───────────────┴───────────────╯
 //                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
 )
