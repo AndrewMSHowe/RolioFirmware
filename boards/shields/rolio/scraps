@@ -21,6 +21,8 @@ west build -p -d build/left -b nice_nano_v2 -S studio-rpc-usb-uart -S zmk-usb-lo
 /workspaces/zmk-modules/zmk-behavior-string-input
 
 /workspaces/zmk-modules/zmk-userspace/;
+
+-DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DZMK_CONFIG=/workspaces/zmk-config/config -DEXTRA_CONF_FILE=/workspaces/zmk-config/config/rolio-nice_view.conf -DZMK_EXTRA_MODULES=/workspaces/zmk-config/;/workspaces/zmk-modules/zmk-helpers/;/workspaces/zmk-modules/zmk-leader-key/;/workspaces/zmk-modules/zmk-locales/;/workspaces/zmk-modules/zmk-behavior-string-input
 */
 
 // AAAARGH tried to do this with hold tap + trans, it doesn't work, it doesn't continue through the layers. ZMK has patches but not merged yet.
@@ -57,3 +59,5 @@ ZMK_COMBO(mswipeLD, &m_swipeLD,         LB2 LH3,                  FN_NAV        
 ZMK_COMBO(mswipeLL, &m_swipeLL,         LB2 LB3,                  FN_NAV              , COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
 ZMK_COMBO(mswipeLR, &m_swipeLR,         LB1 LB2,                  FN_NAV              , COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
 */
+
+#define MOVE_MULTIPLY(MOVE, MULTIPLIER) ((((MOVE & 0xFFFF) * MULTIPLIER) & 0xFFFF) | (((MOVE & 0xFFFF0000) * MULTIPLIER) & 0xFFFF0000))

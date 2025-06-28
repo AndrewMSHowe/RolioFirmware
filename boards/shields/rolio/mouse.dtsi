@@ -1,16 +1,38 @@
 /* Mouse stuffs */
 
-#define MOUSE_NUDGE_TAP_TIME 100
-#define MOUSE_NUDGE_MULTIPLIER 10
+// same as &mmv, but with constant speed
+/ {
+    behaviors {
+        mmvc: mouse_move_constant {
+            compatible = "zmk,behavior-input-two-axis";
+            #binding-cells = <1>;
+            x-input-code = <INPUT_REL_X>;
+            y-input-code = <INPUT_REL_Y>;
+            time-to-max-speed-ms = <0>;
+            acceleration-exponent = <0>;
+        };
+    };
 
+    mmvc_input_listener: mmvc_input_listener {
+        compatible = "zmk,input-listener";
+        device = <&mmvc>;
+    };
+};
+
+// &mmv is being held, but &mmvc is being tapped and needs a tap time to work properly
 #define MOUSE_NUDGE(NAME, DESC, TAP_TIME) ZMK_MACRO_ONE_PARAM(NAME, display-name = DESC; bindings = \
     <&macro_tap_time TAP_TIME>, \
     <&macro_param_1to1>, \
-    <&macro_tap &mmv MACRO_PLACEHOLDER>; \
+    <&macro_tap &mmvc MACRO_PLACEHOLDER>; \
 )
 
+// This affects the distance of the nudge, but it is linear with &mmvc. It's decent enough to not need a scaler, but I could add some for different layers.
+#define MOUSE_NUDGE_TAP_TIME 50
+
 MOUSE_NUDGE(m_mouse_nudge, "Mouse Nudge", MOUSE_NUDGE_TAP_TIME)
+
+// This is a hold tap that moves the mouse when held, and nudges it when tapped
 TAP_OR_SHORT_HOLD(ht_mouse_nudge_move, "Mouse Nudge on tap, Move on hold", m_mouse_nudge, mmv)
 
-#define MOVE_MULTIPLY(MOVE) ((((MOVE & 0xFFFF) * MOUSE_NUDGE_MULTIPLIER) & 0xFFFF) | (((MOVE & 0xFFFF0000) * MOUSE_NUDGE_MULTIPLIER) & 0xFFFF0000))
-#define MOUSE_NUDGE_OR_MOVE(DIR) &ht_mouse_nudge_move DIR MOVE_MULTIPLY(DIR)
+// Helper to instantiate the mouse nudge or move behavior in a layer and pass the same direction parameter to both
+#define MOUSE_NUDGE_OR_MOVE(DIR) &ht_mouse_nudge_move DIR DIR
