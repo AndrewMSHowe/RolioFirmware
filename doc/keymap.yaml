@@ -25,7 +25,7 @@ layers:
   - 'L  ¬'
   - 'Ö  Ø'
   - 'Ä  Æ'
-  - {h: LSHIFT}
+  - {t: Sticky, h: LSHIFT}
   - 'Z  Ʒ'
   - {t: 'X  ×', s: '   ·'}
   - C
@@ -74,7 +74,7 @@ layers:
   - {t: L, h: ')'}
   - {t: Ö, h: '='}
   - {t: Ä, h: "'*"}
-  - {h: LSHIFT}
+  - {t: Sticky, h: LSHIFT}
   - {t: Z, h: '|'}
   - {t: X, h: '@”'}
   - {t: C, h: '£»'}
@@ -123,7 +123,7 @@ layers:
   - {t: L, type: trans}
   - {t: Ö, type: trans}
   - {t: Ä, type: trans}
-  - {h: LSHIFT, type: trans}
+  - {t: Sticky, h: LSHIFT, type: trans}
   - {t: Z, type: trans}
   - A
   - S
@@ -210,7 +210,7 @@ layers:
   - F10
   - F11
   - {t: TAB, type: trans}
-  - Mouse Button 4
+  - Mouse Button 5
   - Left Click
   - Mouse Up
   - Right Click
@@ -221,30 +221,30 @@ layers:
   - END
   - PAGE UP
   - F12
-  - {h: LSHIFT, type: trans}
-  - Mouse Button 5
+  - {t: Sticky, h: LSHIFT, type: trans}
+  - Emoji
   - Mouse Left
   - Mouse Down
   - Mouse Right
-  - Emoji
-  - Reset zoom
+  - Mouse Button 4
+  - {t: F13, type: trans}
   - {t: F14, type: trans}
-  - PRINT SCREEN
+  - F15
   - LEFT
   - DOWN
   - RIGHT
   - PAGE DOWN
   - {t: CAPSWORD, h: RSHIFT, type: trans}
-  - {h: Config}
-  - {h: LGUI}
-  - {h: ALT}
-  - {h: LCTRL}
+  - {h: Config, type: trans}
+  - {h: LGUI, type: trans}
+  - {h: ALT, type: trans}
+  - {h: LCTRL, type: trans}
   - {t: ENTER, h: Fn Nav, type: held}
   - Repeat
   - {h: Media}
-  - {t: Menu, h: RCTRL}
-  - {h: AltGr}
-  - {t: DEL, h: DEL-word}
+  - {t: Menu, h: RCTRL, type: trans}
+  - {h: AltGr, type: trans}
+  - {t: DEL, h: DEL-word, type: trans}
   Num Pad:
   - {t: ESC, type: trans}
   - KP 1
@@ -270,7 +270,7 @@ layers:
   - KP 6
   - KP +
   - KP /
-  - {t: LSHIFT, type: trans}
+  - {t: Sticky, h: LSHIFT, type: trans}
   - '_'
   - A
   - B
@@ -319,7 +319,7 @@ layers:
   - ')'
   - '=  °'
   - {t: "'  ˇ", s: '*  ˘'}
-  - {h: LSHIFT, type: trans}
+  - {t: Sticky, h: LSHIFT, type: trans}
   - '|'
   - {t: '@', s: '”'}
   - {t: '£', s: '»'}
@@ -333,16 +333,16 @@ layers:
   - ']'
   - {t: '}', s: '°'}
   - {t: CAPSWORD, h: RSHIFT, type: trans}
-  - {h: Config}
-  - {h: LGUI}
-  - {h: ALT}
-  - {h: LCTRL}
-  - {t: ENTER, h: Fn Nav}
-  - {t: SPACE, h: Num Pad}
+  - {h: Config, type: trans}
+  - {h: LGUI, type: trans}
+  - {h: ALT, type: trans}
+  - {h: LCTRL, type: trans}
+  - {t: ENTER, h: Fn Nav, type: trans}
+  - {t: SPACE, h: Num Pad, type: trans}
   - {h: Symbols, type: held}
-  - {t: Menu, h: RCTRL}
-  - {h: AltGr}
-  - {t: DEL, h: DEL-word}
+  - {t: Menu, h: RCTRL, type: trans}
+  - {h: AltGr, type: trans}
+  - {t: DEL, h: DEL-word, type: trans}
   Media:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -442,8 +442,7 @@ layers:
   - Letter Tool
   - {t: ▽, type: trans}
   Config:
-  - Toggle BLE USB
-  - {t: Select, h: Disconnect, s: Profile 0}
+  - {t: Toggle BLE/USB, h: Clr Profile}
   - {t: Select, h: Disconnect, s: Profile 1}
   - {t: Select, h: Disconnect, s: Profile 2}
   - {t: Select, h: Disconnect, s: Profile 3}
@@ -453,27 +452,28 @@ layers:
   - {t: Select, h: Disconnect, s: Profile 7}
   - {t: Select, h: Disconnect, s: Profile 8}
   - {t: Select, h: Disconnect, s: Profile 9}
+  - {t: Select, h: Disconnect, s: Profile 10}
   - {t: '´¸', s: '`˛'}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - Sudoku
+  - Toggle Sudoku
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - Game
+  - Toggle Game
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - PAUSE BREAK
+  - PRINT SCREEN
   - SCROLL LOCK
+  - PAUSE BREAK
   - {t: 'Å  ˝', s: '  ˚'}
   - {t: '¨~', s: '^¯'}
   - {t: ▽, type: trans}
-  - Backlight 10
-  - {h: Clr Profile}
-  - Backlight -
-  - Backlight Toggle
-  - Backlight +
   - {t: ▽, type: trans}
-  - Backlight Toggle
+  - {t: Backlight Off, h: BL 25%}
+  - {t: Backlight -, h: BL 50%}
+  - {t: Backlight Toggle, h: BL 75%}
+  - {t: Backlight +, h: BL 100%}
+  - {t: ▽, type: trans}
+  - {t: Backlight Toggle, h: BL 50%}
   - Base Alpha
   - Base Alpha+Sym
   - {t: ▽, type: trans}
@@ -481,7 +481,7 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {h: Config, type: held}
-  - Leader
+  - Leader (L)
   - {h: ALT, type: trans}
   - {h: LCTRL, type: trans}
   - Toggle Fn Nav
@@ -489,4 +489,4 @@ layers:
   - Toggle Symbols
   - {h: RCTRL, type: trans}
   - {h: AltGr, type: trans}
-  - Leader
+  - Leader (R)

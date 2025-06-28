@@ -90,7 +90,7 @@ LAYER(Fn_Nav, "Fn Nav",
 // ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
     ___             &kp F1          &kp F2          &kp F3          &kp F4          &kp F5                                          &kp F6          &kp F7          &kp F8          &kp F9          &kp F10         &kp F11
     ___             &mkp MB5        &mkp LCLK       MNM(MOVE_UP)    &mkp RCLK       &mkp MCLK    /*├───────────────┬───────────────┤*/&kp INSERT    &kp HOME        &kp UP          &kp END         &kp PAGE_UP     &kp F12
-    ___             &m_emoji        MNM(MOVE_LEFT)  MNM(MOVE_DOWN)  MNM(MOVE_RIGHT) &mkp MB4        ___             ___             &kp PRINTSCREEN &kp LEFT        &kp DOWN        &kp RIGHT       &kp PAGE_DOWN   ___
+    ___             &m_emoji        MNM(MOVE_LEFT)  MNM(MOVE_DOWN)  MNM(MOVE_RIGHT) &mkp MB4        ___             ___             &kp F15         &kp LEFT        &kp DOWN        &kp RIGHT       &kp PAGE_DOWN   ___
  /*╰───────────────┴───────────────┤*/___           ___             ___             ___             ___             &key_repeat     &mo MEDIA       ___             ___             ___          //├───────────────┴───────────────╯
 //                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
 )
@@ -196,7 +196,7 @@ LAYER(Config, "Config",
     &bt_adjust &bri_adjust,
 // ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
     OUT_BTCLR       BTSD(0)         BTSD(1)         BTSD(2)         BTSD(3)         BTSD(4)                                         BTSD(5)         BTSD(6)         BTSD(7)         BTSD(8)         BTSD(9)         &kp FI_ACUTE
-    ___             SI              &tog SUDOKU     ___             ___             &tog GAME    /*├───────────────┬───────────────┤*/___           ___             &kp PAUSE_BREAK &kp SCROLLLOCK  &kp FI_A_RING   &kp FI_UMLAUT
+    ___             SI              &tog SUDOKU     ___             ___             &tog GAME    /*├───────────────┬───────────────┤*/___           &kp PRINTSCREEN &kp SCROLLLOCK  &kp PAUSE_BREAK &kp FI_A_RING   &kp FI_UMLAUT
     ___             ___             BLCS(OFF, 25)   BLCS(DEC, 50)   BLCS(TOG, 75)   BLCS(INC, 100)  ___             BLCS(TOG, 50)   &to/*df*/ ALPHA &to/*df*/ ALPSYM ___            ___             ___             ___
 /* ╰───────────────┴───────────────┤*/___           &leader         ___             ___             &tog FN_NAV     &tog NUMPAD     &tog SYMBOL     ___             ___             &leader      //├───────────────┴───────────────╯
 //                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
