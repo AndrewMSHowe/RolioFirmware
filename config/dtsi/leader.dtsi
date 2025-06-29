@@ -26,3 +26,5 @@ ZMK_LEADER_SEQUENCE(reset,      &sys_reset,     R E S E T)
 ZMK_LEADER_SEQUENCE(boot,       &bootloader,    B O O T)
 
 ZMK_LEADER_SEQUENCE(studio,     &studio_unlock, S T U D I O)
+
+ZMK_LEADER_SEQUENCE(soft_off,   &soft_off,      DEL)
