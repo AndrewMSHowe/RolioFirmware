@@ -1,8 +1,5 @@
 /* Combos */
 
-/* Key labels */
-#include "zmk-helpers/key-labels/rolio46.h"
-
 // Not sure how I feel about these... They work, but sometimes you get spurious results if you don't mash the keys just right.
 // We have rollers for this stuff :) But was a fun experiment...
 
@@ -53,3 +50,9 @@ ZMK_COMBO(home,     &kp HOME,           RM1 RM2,    ALPHA  ALPSYM        SYMBOL 
 ZMK_COMBO(end,      &kp END,            RM2 RM3,    ALPHA  ALPSYM        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
 ZMK_COMBO(pgup,     &kp PG_UP,          RM3 RB3,    ALPHA  ALPSYM        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
 ZMK_COMBO(pgdn,     &kp PG_DN,          RB3 RH4,    ALPHA  ALPSYM        SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+
+// Modifiers
+ZMK_COMBO(lhyper,   &kp LHYPER,         LT4 LT5,    ALPHA  ALPSYM FN_NAV SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(rhyper,   &kp LHYPER,         RT4 RT5,    ALPHA  ALPSYM FN_NAV SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(lmeh,     &kp LMEH,           LM4 LM5,    ALPHA  ALPSYM FN_NAV SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(rmeh,     &kp LMEH,           RM4 RM5,    ALPHA  ALPSYM FN_NAV SYMBOL NUMPAD, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)

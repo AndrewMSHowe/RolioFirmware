@@ -7,10 +7,3 @@ DEADKEY(ro_aci, FI_CARET, A)
 DEADKEY(ro_ici, FI_CARET, I)
 DEADKEY(ro_sco, RA(FI_UNDERSCORE), S)
 DEADKEY(ro_tco, RA(FI_UNDERSCORE), T)
-
-// Some Romanian letters with AltGr modifier, on keys that don't have a standard AltGr variant
-KP_OR_OTHER_WITH_RA(Q, ro_abr, "Q/ă")
-KP_OR_OTHER_WITH_RA(W, ro_aci, "W/â")
-KP_OR_OTHER_WITH_RA(R, ro_ici, "R/î")
-KP_OR_OTHER_WITH_RA(F, ro_sco, "F/ș")
-KP_OR_OTHER_WITH_RA(G, ro_tco, "G/ț")

@@ -1,0 +1,7 @@
+/* Home row mods */
+
+MAKE_LEFT_HRM(hml, &kp, &kp)
+MAKE_LEFT_HRM(hmlmo, &mo, &kp)
+
+MAKE_RIGHT_HRM(hmr, &kp, &kp)
+MAKE_RIGHT_HRM(hmrmo, &mo, &kp)

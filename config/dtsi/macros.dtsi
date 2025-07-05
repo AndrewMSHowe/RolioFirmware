@@ -17,3 +17,6 @@ ZMK_MACRO_ONE_PARAM(m_reset, display-name = "Reset"; bindings = <&sys_reset>;)
 ZMK_MACRO_ONE_PARAM(m_bootloader, display-name = "Bootloader"; bindings = <&bootloader>;)
 ZMK_MACRO_ONE_PARAM(m_blcmd, display-name = "Backlight Command"; bindings = <&macro_param_1to1>, <&bl MACRO_PLACEHOLDER 0>;)
 ZMK_MACRO_ONE_PARAM(m_blset, display-name = "Backlight Set"; bindings = <&macro_param_1to2>, <&bl BL_SET MACRO_PLACEHOLDER>;)
+
+// Ignore two parameters and do nothing
+ZMK_MACRO_TWO_PARAM(m_ignore2, display-name = "Ignore two parameters"; bindings = <&none>;)

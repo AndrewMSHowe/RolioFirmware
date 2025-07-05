@@ -12,13 +12,13 @@ TAP_OR_LONG_HOLD(h_out_btclr, "Bluetooth profile Hold: Clear", out, m_btclr)
 // Longhand as these are hold-preferred
 ZMK_HOLD_TAP(sticky_shift,
     display-name = "Hold Shift / Tap Sticky Shift";
-    tapping-term-ms = <HOLD_TIME_SHORT>;
+    tapping-term-ms = <HOLD_MS_SHORT>;
     bindings = <&kp>, <&sk>;
 )
 
 ZMK_HOLD_TAP(capsword_shift,
     display-name = "Hold Shift / Tap Capsword";
-    tapping-term-ms = <HOLD_TIME_SHORT>;
+    tapping-term-ms = <HOLD_MS_SHORT>;
     bindings = <&kp>, <&caps_word>;
 )
 

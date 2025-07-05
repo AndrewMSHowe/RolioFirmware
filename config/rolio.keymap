@@ -24,6 +24,9 @@
 /* urob's helpers */
 #include <zmk-helpers/helper.h>
 
+/* Key labels */
+#include <zmk-helpers/key-labels/rolio46.h>
+
 // Elpekenin's zmk-userspace behaviors
 // TODO: Removed for now, see below
 //#include "elpekenin/behaviors.dtsi"
@@ -38,6 +41,16 @@
 #ifdef STRING_INPUT_MODULE
 #define ZMK_BEHAVIOR_CORE_string_input compatible = "zmk,behavior-string-input"; #binding-cells = <0>
 #define ZMK_STRING_INPUT(NAME, ACCEPT, CANCEL, ...) ZMK_BEHAVIOR(NAME, string_input, bindings = <ACCEPT>, <CANCEL>; __VA_ARGS__)
+#endif
+
+/* String display */
+// Experimental, just for me so far
+// TODO can I find this out from DT in here?
+#define STRING_DISPLAY_MODULE
+#ifdef STRING_DISPLAY_MODULE
+#include <zmk-behavior-string-display/string-display.h>
+#define ZMK_BEHAVIOR_CORE_string_display compatible = "zmk,behavior-string-display"; #binding-cells = <2>
+#define ZMK_STRING_DISPLAY(NAME, ...) ZMK_BEHAVIOR(NAME, string_display, __VA_ARGS__)
 #endif
 
 // My helpers
@@ -60,9 +73,10 @@
 #include "dtsi/behavior_defaults.dtsi"
 #include "dtsi/sensors.dtsi"
 #include "dtsi/tapdances.dtsi"
+#include "dtsi/altgr_extras.dtsi"
+#include "dtsi/homerowmods.dtsi"
 #include "dtsi/holdtaps.dtsi"
 #include "dtsi/macros.dtsi"
-#include "dtsi/altgr_extras.dtsi"
 #include "dtsi/mouse.dtsi"
 #include "dtsi/layers.dtsi"
 #include "dtsi/combos.dtsi"

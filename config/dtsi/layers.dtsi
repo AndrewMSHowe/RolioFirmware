@@ -1,8 +1,11 @@
 /* Layers */
 
+ZMK_CONDITIONAL_LAYER(media, FN_NAV SYMBOL, MEDIA)
+
 /* Base layer
     Finnish stylee, right of L are Ö and Ä; key between . and RSHIFT is -_
-    Romanian letters on AltGr (They only work properly with SFS 5966 with "comma below" amendment)
+    Home row mods, GACS style, plus RALT
+    Also some home-ish momentary layer keys for each side
     RET key hold is Fn_Nav layer (tap it with Config key to lock it)
     SPC key hold is Numpad layer, + Config lock
     SYMBOL key hold is Symbols layer, + Config lock
@@ -15,23 +18,27 @@
 #define MTM_LC(K) &mt_medium LC(K) K
 #define LS_STICKY &sticky_shift LSHIFT LSHIFT
 #define RS_CAPSW &capsword_shift RSHIFT 0
+#define HM(L5, L4, L3, L2, L1, L0L, L0K, R0L, R0K, R1, R2, R3, R4, R5) \
+    &hml RALT L5 &hml LGUI L4 &hml LALT L3 &hml LCTRL L2 &hml LSHFT L1 &hmlmo L0L L0K \
+    &hmrmo R0L R0K &hmr LSHFT R1 &hmr LCTRL R2 &hmr LALT R3 &hmr LGUI R4 &hmr RALT R5
 
 LAYER(Alpha, "Alpha",
     &inc_dec_kp UP DOWN &inc_dec_kp LEFT RIGHT,
 // ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
-    &kp ESC         &Q_ro_abr       &W_ro_aci       &kp E           &R_ro_ici       &kp T                                           &kp Y           &kp U           &kp I           &kp O           &kp P           MTM_LC(BSPC)
-    &kp TAB         &kp A           &kp S           &kp D           &F_ro_sco       &G_ro_tco    /*├───────────────┬───────────────┤*/&kp H         &kp J           &kp K           &kp L           &kp FI_O_UMLAUT &kp FI_A_UMLAUT
-    LS_STICKY       &kp Z           &kp X           &kp C           &kp V           &kp B           &kp F13         &kp F14         &kp N           &kp M           &kp COMMA       &kp DOT         &kp FI_MINUS    RS_CAPSW
+    &kp ESC         &kp Q           &kp W           &kp E           &kp R           &hmlmo NUMPAD T                                 &hmrmo NUMPAD Y &kp U           &kp I           &kp O           &kp P           MTM_LC(BSPC)
+    HM(TAB,         A,              S,              D,              F,              SYMBOL, G,   /*├───────────────┬───────────────┤*/SYMBOL, H,    J,              K,              L,              FI_OE,          FI_AE)
+    LS_STICKY       &kp Z           &kp X           &kp C           &kp V           &hmlmo FN_NAV B &kp F13         &kp F14         &hmrmo FN_NAV N &kp M           &kp COMMA       &kp DOT         &kp FI_MINUS    RS_CAPSW
  /*╰───────────────┴───────────────┤*/&td_config    &kp LGUI        &kp LALT        &kp LCTRL       &lt FN_NAV RET  &lt NUMPAD SPC  &mo SYMBOL      &mt RCTRL K_APP &kp RALT        MTM_LC(DEL)  //├───────────────┴───────────────╯
 //                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
 )
-// Available RALT keys: C V B Y U H J
+// Available RALT keys: Q W R Y U F G H J C V B
 
 /* Alpha Sym-Hold Layer (alternate base layer)
     Experimental: Now I have a repeat key, how about a toggleable layer that puts symbol layer on hold, passing through to the alpha layer on tap?
     Will lose BSPC word...
     Hold-tap with tap trans didn't work, so this has to be kept updated with the Alpha layer...
     No &trans so it can be a default layer if that's fixed
+    No Home Row Mods, as hold is in use
 */
 
 #define SA &mt_short // SA because sym goes first
@@ -40,7 +47,7 @@ LAYER(AlphaSymHold, "Alpha+Sym",
     &inc_dec_kp UP DOWN &inc_dec_kp LEFT RIGHT,
 // ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
     SA FI_SECTION ESC SA N1 Q       SA N2 W         SA N3 E         SA N4 R         SA N5 T                                         SA N6 Y         SA N7 U         SA N8 I         SA N9 O         SA N0 P         SA FI_PLUS BSPC
-    SA FI_LT TAB    SA EXCL A       SA AT S         SA HASH D       SA FI_CURREN F  SA PRCNT G   /*├───────────────┬───────────────┤*/SA FI_AMPS H  SA FI_SLASH J   SA FI_LPAR K    SA FI_RPAR L    SA FI_EQUAL FI_O_UMLAUT SA FI_SQT FI_A_UMLAUT
+    SA FI_LT TAB    SA EXCL A       SA AT S         SA HASH D       SA FI_CURREN F  SA PRCNT G   /*├───────────────┬───────────────┤*/SA FI_AMPS H  SA FI_SLASH J   SA FI_LPAR K    SA FI_RPAR L    SA FI_EQL FI_OE SA FI_SQT FI_AE
     LS_STICKY       SA FI_PIPE Z    SA FI_AT X      SA FI_GBP C     SA FI_DOLLAR V  SA FI_PERMILLE B &kp F13        &kp F14         SA FI_SL9QM N   SA FI_LBRC M    SA FI_LBKT COMMA SA FI_RBKT DOT SA FI_RBRC FI_MINUS RS_CAPSW
 /* ╰───────────────┴───────────────┤*/&td_config    &kp LGUI        &kp LALT        &kp LCTRL       &lt FN_NAV RET  &lt NUMPAD SPC  &mo SYMBOL      &mt RCTRL K_APP &kp RALT        MTM_LC(DEL)  //├───────────────┴───────────────╯
 //                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
@@ -91,7 +98,7 @@ LAYER(Fn_Nav, "Fn Nav",
     ___             &kp F1          &kp F2          &kp F3          &kp F4          &kp F5                                          &kp F6          &kp F7          &kp F8          &kp F9          &kp F10         &kp F11
     &kp CAPS        &mkp MB5        &mkp LCLK       MNM(MOVE_UP)    &mkp RCLK       &mkp MCLK    /*├───────────────┬───────────────┤*/&kp INSERT    &kp HOME        &kp UP          &kp END         &kp PAGE_UP     &kp F12
     ___             &m_emoji        MNM(MOVE_LEFT)  MNM(MOVE_DOWN)  MNM(MOVE_RIGHT) &mkp MB4        ___             ___             &kp F15         &kp LEFT        &kp DOWN        &kp RIGHT       &kp PAGE_DOWN   ___
- /*╰───────────────┴───────────────┤*/___           ___             ___             ___             ___             &key_repeat     &mo MEDIA       ___             ___             ___          //├───────────────┴───────────────╯
+ /*╰───────────────┴───────────────┤*/___           ___             ___             ___             ___             &key_repeat     ___             ___             ___             ___          //├───────────────┴───────────────╯
 //                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
 )
 
@@ -109,8 +116,8 @@ LAYER(Numpad, "Num Pad",
     &inc_dec_kp LC(FI_PLUS) LC(FI_MINUS) &inc_dec_kp LG(FI_PLUS) LG(FI_MINUS),
 // ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
     ___             &kp KP_N1       &kp KP_N2       &kp KP_N3       &kp KP_N4       &kp KP_N5                                       &kp KP_N6       &kp KP_N7       &kp KP_N8       &kp KP_N9       &kp KP_MINUS    ___
-    ___             &kp RALT        &kp D           &kp E           &kp F           &kp FI_EQUAL /*├───────────────┬───────────────┤*/&m_caret      &kp KP_N4       &kp KP_N5       &kp KP_N6       &kp KP_PLUS     &kp KP_DIVIDE
-    ___             &kp FI_UNDER    &kp A           &kp B           &kp C           &kp C_AL_CALC   &reset_zoom     &kp LG(ESC)     &kp PRCNT       &kp KP_N1       &kp KP_N2       &kp KP_N3       &kp KP_ENTER    &kp KP_MULTIPLY
+    HM(TAB,         FI_LT,          D,              E,              F,             SYMBOL,FI_EQL,/*├───────────────┬───────────────┤*/SYMBOL,PRCNT, KP_N4,          KP_N5,          KP_N6,          KP_PLUS,        KP_DIVIDE)
+    ___             &kp FI_UNDER    &kp A           &kp B           &kp C           &kp C_AL_CALC   &reset_zoom     &kp LG(ESC)     &m_caret        &kp KP_N1       &kp KP_N2       &kp KP_N3       &kp KP_ENTER    &kp KP_MULTIPLY
 /* ╰───────────────┴───────────────┤*/___           ___             ___             ___             ___             ___             ___             &kp KP_N0       &kp KP_DOT      NUMLOCK_DOT  //├───────────────┴───────────────╯
 //                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
 )
@@ -128,7 +135,7 @@ LAYER(Symbol, "Symbols",
     &inc_dec_kp PG_UP PG_DN &inc_dec_kp LC(LEFT) LC(RIGHT),
 // ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
     &kp FI_SECTION  &kp N1          &kp N2          &kp N3          &kp N4          &kp N5                                          &kp N6          &kp N7          &kp N8          &kp N9          &kp N0          &kp FI_PLUS
-    &kp FI_LT       &kp EXCL        &kp AT          &kp HASH        &kp FI_CURREN   &kp PRCNT    /*├───────────────┬───────────────┤*/&kp FI_AMPS   &kp FI_SLASH    &kp FI_LPAR     &kp FI_RPAR     &kp FI_EQUAL    &kp FI_SQT
+    HM(FI_LT,       EXCL,           AT,             HASH,           FI_CUR,         SYMBOL,PRCNT,/*├──────────────┬────────────────┤*/SYMBOL,FI_AMPS,FI_FSLH,       FI_LPAR,        FI_RPAR,        FI_EQL,         FI_SQT)
     ___             &kp FI_PIPE     &kp FI_AT       &kp FI_GBP      &kp FI_DOLLAR   &kp FI_PERMILLE ___             ___             &kp FI_SL9QM    &kp FI_LBRC     &kp FI_LBKT     &kp FI_RBKT     &kp FI_RBRC     ___
 /* ╰───────────────┴───────────────┤*/___           ___             ___             ___             ___             ___             ___             ___             ___             ___          //├───────────────┴───────────────╯
 //                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
@@ -138,12 +145,13 @@ LAYER(Symbol, "Symbols",
     Rollers are volume and target screen brightness
     Volume controls, playback etc
     Only momentary from FN_NAV + SYMBOL for now
+    Romanian letters on A(Ă) U(Â) I(Î) S(Ș) T(Ț)
 */
 LAYER(Media, "Media",
     &inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp C_BRI_INC C_BRI_DEC,
 // ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
-    ___             ___             ___             ___             ___             ___                                             ___             ___             ___             ___             ___             ___
-    ___             ___             ___             ___             ___             ___          /*├───────────────┬───────────────┤*/___           &kp C_RW        &kp C_STOP      &kp C_FF        ___             ___
+    ___             ___             ___             ___             ___             &ro_tco                                         ___             &ro_aci         &ro_ici         ___             ___             ___
+    ___             &ro_abr         &ro_sco         ___             ___             ___          /*├───────────────┬───────────────┤*/___           &kp C_RW        &kp C_STOP      &kp C_FF        ___             ___
     ___             ___             ___             &kp C_VOL_DN    &kp C_MUTE      &kp C_VOL_UP    &kp C_MUTE      &kp C_BRI_MAX   &kp C_REC       &kp C_PREV      &kp C_PP        &kp C_NEXT      ___             ___
 /* ╰───────────────┴───────────────┤*/___           ___             ___             ___             ___             ___             ___             ___             ___             ___          //├───────────────┴───────────────╯
 //                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
@@ -182,22 +190,42 @@ LAYER(Sudoku, "Sudoku",
 #define BLCS(C, S) &mt_bl_cmd_set S BL_ ## C ## _CMD
 
 #ifdef STRING_INPUT_MODULE
-ZMK_STRING_INPUT(si, &none, &none,
-    accept-keys = <RET>;
-    cancel-keys = <ESC>;
-    ignore-keys = <LSHIFT RSHIFT>;
+#define STRING_INPUT(NAME, DESC, ACCEPT, CANCEL) ZMK_STRING_INPUT(NAME, ACCEPT, CANCEL, \
+    display-name = DESC; \
+    accept-list = <RET>; \
+    cancel-list = <ESC>; \
+    ignore-list = <LSHIFT RSHIFT>; \
 )
-#define SI &si
 #else
-#define SI &none
+#define STRING_INPUT(NAME, DESC, ACCEPT, CANCEL) ZMK_MACRO(NAME, display-name = DESC; bindings = <&none>)
 #endif
+
+#ifdef STRING_DISPLAY_MODULE
+ZMK_STRING_DISPLAY(sd, strings =
+    "[BTPN]",
+    "Hello, world!";
+)
+#define SD_STRING_BLE_PROFILE_NAME 0
+#define SD_STRING_HELLO_WORLD 1
+
+#define SD &sd
+#else
+#define SD &m_ignore2
+#endif
+
+#define SDSHOW SD SD_SHOW(TOGGLE)
+#define SDDISP_BLE_PN SD SD_DISPLAY(SD_STRING_BLE_PROFILE_NAME)
+#define SDDISP_HELLO SD SD_DISPLAY(SD_STRING_HELLO_WORLD)
+#define SDSTOR_BLE_PN SD SD_STORE(BLE_PROFILE_NAME)
+
+STRING_INPUT(si_ble_pm, "Input string; Accept => store BLE profile name, Cancel => nothing", SDSTOR_BLE_PN, &none)
 
 LAYER(Config, "Config",
     &bt_adjust &bri_adjust,
 // ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮                               ╭───────────────┬───────────────┬───────────────┬───────────────┬───────────────┬───────────────╮
     OUT_BTCLR       BTSD(0)         BTSD(1)         BTSD(2)         BTSD(3)         BTSD(4)                                         BTSD(5)         BTSD(6)         BTSD(7)         BTSD(8)         BTSD(9)         &kp FI_ACUTE
-    ___             SI              &tog SUDOKU     ___             ___             &tog GAME    /*├───────────────┬───────────────┤*/___           &kp PRINTSCREEN &kp SCROLLLOCK  &kp PAUSE_BREAK &kp FI_A_RING   &kp FI_UMLAUT
-    ___             ___             BLCS(OFF, 25)   BLCS(DEC, 50)   BLCS(TOG, 75)   BLCS(INC, 100)  ___             BLCS(TOG, 50)   &to/*df*/ ALPHA &to/*df*/ ALPSYM ___            ___             ___             ___
+    ___             &si_ble_pm      &tog SUDOKU     SDDISP_HELLO    SDDISP_BLE_PN   &tog GAME    /*├───────────────┬───────────────┤*/___           &kp PRINTSCREEN &kp SCROLLLOCK  &kp PAUSE_BREAK &kp FI_A_RING   &kp FI_UMLAUT
+    ___             SDSHOW          BLCS(OFF, 25)   BLCS(DEC, 50)   BLCS(TOG, 75)   BLCS(INC, 100)  ___             BLCS(TOG, 50)   &to/*df*/ ALPHA &to/*df*/ ALPSYM ___            ___             ___             ___
 /* ╰───────────────┴───────────────┤*/___           &leader         ___             ___             &tog FN_NAV     &tog NUMPAD     &tog SYMBOL     ___             ___             &leader      //├───────────────┴───────────────╯
 //                                 ╰───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────┴───────────────╯
 )
